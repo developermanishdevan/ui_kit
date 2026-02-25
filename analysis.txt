@@ -1,0 +1,292 @@
+﻿Analyzing components...                                         
+
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_async_state_wrapper.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_async_state_wrapper.dart:11:19 - always_put_required_named_parameters_first
+   info - The null check operator shouldn't be used on a variable whose type is a potentially nullable type parameter - lib\src\components\advanced\app_async_state_wrapper.dart:38:36 - null_check_on_nullable_type_parameter
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_error_boundary.dart:7:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_form_section.dart:9:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_form_section.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_offline_wrapper.dart:6:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_offline_wrapper.dart:7:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_permission_guards.dart:6:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_permission_guards.dart:7:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_permission_guards.dart:28:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_permission_guards.dart:29:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_permission_guards.dart:30:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_permission_guards.dart:49:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_permission_guards.dart:50:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_scroll_to_top_button.dart:6:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\advanced\app_scroll_to_top_button.dart:7:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\base\app_base_button.dart:12:19 - always_put_required_named_parameters_first
+  error - Undefined name 'AppDurations' - lib\src\components\buttons\base\app_base_button.dart:49:17 - undefined_identifier
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart' - lib\src\components\buttons\destructive\app_destructive_button.dart:3:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\buttons\destructive\app_destructive_button.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\buttons\destructive\app_destructive_button.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\destructive\app_destructive_button.dart:14:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart' - lib\src\components\buttons\floating\app_floating_button.dart:3:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\buttons\floating\app_floating_button.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\buttons\floating\app_floating_button.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\floating\app_floating_button.dart:12:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\floating\app_floating_button.dart:13:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\ghost\app_ghost_button.dart:14:20 - always_put_required_named_parameters_first
+   info - Use 'const' for final variables initialized to a constant value - lib\src\components\buttons\ghost\app_ghost_button.dart:32:5 - prefer_const_declarations
+  error - The getter '_isInteractive' isn't defined for the type 'AppGhostButton' - lib\src\components\buttons\ghost\app_ghost_button.dart:35:27 - undefined_getter
+  error - Classes can only extend other classes - lib\src\components\buttons\gradient\app_gradient_button.dart:8:33 - extends_non_class
+  error - No associated named super constructor parameter - lib\src\components\buttons\gradient\app_gradient_button.dart:10:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\gradient\app_gradient_button.dart:11:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\gradient\app_gradient_button.dart:12:11 - super_formal_parameter_without_associated_named
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\gradient\app_gradient_button.dart:13:20 - always_put_required_named_parameters_first
+  error - No associated named super constructor parameter - lib\src\components\buttons\gradient\app_gradient_button.dart:13:20 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\gradient\app_gradient_button.dart:14:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\gradient\app_gradient_button.dart:15:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\gradient\app_gradient_button.dart:16:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\gradient\app_gradient_button.dart:17:11 - super_formal_parameter_without_associated_named
+  error - Undefined name 'AppGradients' - lib\src\components\buttons\gradient\app_gradient_button.dart:18:21 - undefined_identifier
+  error - 'AppGradientButton' doesn't conform to the bound 'StatefulWidget' of the type parameter 'T' - lib\src\components\buttons\gradient\app_gradient_button.dart:24:9 - type_argument_not_matching_bounds
+warning - The method doesn't override an inherited method - lib\src\components\buttons\gradient\app_gradient_button.dart:24:28 - override_on_non_overriding_member
+  error - A value of type '_State' can't be returned from the method 'createState' because it has a return type of 'State<AppGradientButton>' - lib\src\components\buttons\gradient\app_gradient_button.dart:24:45 - return_of_invalid_type
+  error - Classes can only extend other classes - lib\src\components\buttons\gradient\app_gradient_button.dart:27:22 - extends_non_class
+warning - The method doesn't override an inherited method - lib\src\components\buttons\gradient\app_gradient_button.dart:29:10 - override_on_non_overriding_member
+   info - Use 'const' for final variables initialized to a constant value - lib\src\components\buttons\gradient\app_gradient_button.dart:30:5 - prefer_const_declarations
+  error - The method 'buildWrapper' isn't defined for the type '_State' - lib\src\components\buttons\gradient\app_gradient_button.dart:31:12 - undefined_method
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:37:18 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:37:42 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:40:25 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:41:21 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:43:32 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\buttons\gradient\app_gradient_button.dart:45:41 - deprecated_member_use
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:51:23 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:52:22 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:54:21 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:56:31 - undefined_identifier
+  error - The method 'buildButtonContent' isn't defined for the type '_State' - lib\src\components\buttons\gradient\app_gradient_button.dart:58:22 - undefined_method
+  error - Undefined name 'widget' - lib\src\components\buttons\gradient\app_gradient_button.dart:61:29 - undefined_identifier
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\icon_button\app_icon_button.dart:12:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\icon_button\app_icon_button.dart:13:19 - always_put_required_named_parameters_first
+  error - Undefined name 'AppIconSizes' - lib\src\components\buttons\icon_button\app_icon_button.dart:15:17 - undefined_identifier
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\buttons\link_button\app_link_button.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\buttons\link_button\app_link_button.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\link_button\app_link_button.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\link_button\app_link_button.dart:11:19 - always_put_required_named_parameters_first
+  error - Classes can only extend other classes - lib\src\components\buttons\outline\app_outline_button.dart:8:32 - extends_non_class
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:10:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:11:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:12:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:13:11 - super_formal_parameter_without_associated_named
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\outline\app_outline_button.dart:14:20 - always_put_required_named_parameters_first
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:14:20 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:15:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:16:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:17:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\outline\app_outline_button.dart:18:11 - super_formal_parameter_without_associated_named
+  error - 'AppOutlineButton' doesn't conform to the bound 'StatefulWidget' of the type parameter 'T' - lib\src\components\buttons\outline\app_outline_button.dart:29:9 - type_argument_not_matching_bounds
+warning - The method doesn't override an inherited method - lib\src\components\buttons\outline\app_outline_button.dart:29:27 - override_on_non_overriding_member
+  error - A value of type '_State' can't be returned from the method 'createState' because it has a return type of 'State<AppOutlineButton>' - lib\src\components\buttons\outline\app_outline_button.dart:29:44 - return_of_invalid_type
+  error - Classes can only extend other classes - lib\src\components\buttons\outline\app_outline_button.dart:32:22 - extends_non_class
+warning - The method doesn't override an inherited method - lib\src\components\buttons\outline\app_outline_button.dart:34:10 - override_on_non_overriding_member
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:35:16 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:36:16 - undefined_identifier
+   info - Use 'const' for final variables initialized to a constant value - lib\src\components\buttons\outline\app_outline_button.dart:37:5 - prefer_const_declarations
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:44:16 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:44:40 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:46:19 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:47:18 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:49:17 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:51:48 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:56:22 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:57:22 - undefined_identifier
+  error - The method 'buildButtonContent' isn't defined for the type '_State' - lib\src\components\buttons\outline\app_outline_button.dart:60:18 - undefined_method
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:61:30 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\outline\app_outline_button.dart:63:37 - undefined_identifier
+  error - The method 'buildWrapper' isn't defined for the type '_State' - lib\src\components\buttons\outline\app_outline_button.dart:68:12 - undefined_method
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\buttons\primary\app_primary_button.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\primary\app_primary_button.dart:15:20 - always_put_required_named_parameters_first
+  error - The getter '_isInteractive' isn't defined for the type 'AppPrimaryButton' - lib\src\components\buttons\primary\app_primary_button.dart:41:21 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\buttons\primary\app_primary_button.dart:41:46 - deprecated_member_use
+  error - The getter '_isInteractive' isn't defined for the type 'AppPrimaryButton' - lib\src\components\buttons\primary\app_primary_button.dart:45:23 - undefined_getter
+  error - Classes can only extend other classes - lib\src\components\buttons\secondary\app_secondary_button.dart:8:34 - extends_non_class
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:10:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:11:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:12:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:13:11 - super_formal_parameter_without_associated_named
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\secondary\app_secondary_button.dart:14:20 - always_put_required_named_parameters_first
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:14:20 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:15:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:16:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:17:11 - super_formal_parameter_without_associated_named
+  error - No associated named super constructor parameter - lib\src\components\buttons\secondary\app_secondary_button.dart:18:11 - super_formal_parameter_without_associated_named
+  error - 'AppSecondaryButton' doesn't conform to the bound 'StatefulWidget' of the type parameter 'T' - lib\src\components\buttons\secondary\app_secondary_button.dart:22:9 - type_argument_not_matching_bounds
+warning - The method doesn't override an inherited method - lib\src\components\buttons\secondary\app_secondary_button.dart:22:29 - override_on_non_overriding_member
+  error - A value of type '_State' can't be returned from the method 'createState' because it has a return type of 'State<AppSecondaryButton>' - lib\src\components\buttons\secondary\app_secondary_button.dart:22:46 - return_of_invalid_type
+  error - Classes can only extend other classes - lib\src\components\buttons\secondary\app_secondary_button.dart:25:22 - extends_non_class
+warning - The method doesn't override an inherited method - lib\src\components\buttons\secondary\app_secondary_button.dart:27:10 - override_on_non_overriding_member
+   info - Use 'const' for final variables initialized to a constant value - lib\src\components\buttons\secondary\app_secondary_button.dart:31:5 - prefer_const_declarations
+  error - Undefined name 'widget' - lib\src\components\buttons\secondary\app_secondary_button.dart:34:14 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\buttons\secondary\app_secondary_button.dart:34:46 - deprecated_member_use
+  error - Undefined name 'widget' - lib\src\components\buttons\secondary\app_secondary_button.dart:38:16 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\secondary\app_secondary_button.dart:38:40 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\secondary\app_secondary_button.dart:40:19 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\secondary\app_secondary_button.dart:41:18 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\secondary\app_secondary_button.dart:43:17 - undefined_identifier
+  error - Undefined name 'widget' - lib\src\components\buttons\secondary\app_secondary_button.dart:45:48 - undefined_identifier
+  error - The method 'buildButtonContent' isn't defined for the type '_State' - lib\src\components\buttons\secondary\app_secondary_button.dart:47:18 - undefined_method
+  error - Undefined name 'widget' - lib\src\components\buttons\secondary\app_secondary_button.dart:50:37 - undefined_identifier
+  error - The method 'buildWrapper' isn't defined for the type '_State' - lib\src\components\buttons\secondary\app_secondary_button.dart:55:12 - undefined_method
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\segmented\app_segmented_button.dart:17:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\segmented\app_segmented_button.dart:18:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\segmented\app_segmented_button.dart:19:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\buttons\split_button\app_split_button.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\split_button\app_split_button.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\split_button\app_split_button.dart:11:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\split_button\app_split_button.dart:12:19 - always_put_required_named_parameters_first
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\buttons\split_button\app_split_button.dart:69:41 - deprecated_member_use
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\buttons\toggle\app_toggle_button.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\toggle\app_toggle_button.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\toggle\app_toggle_button.dart:11:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\buttons\toggle\app_toggle_button.dart:12:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\data_display\avatar\app_avatar.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\data_display\avatar\app_avatar.dart:5:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\src\components\data_display\avatar\app_avatar.dart:66:15 - prefer_const_constructors
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\avatar_group\app_avatar_group.dart:9:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\badge\app_badge.dart:14:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\card\app_card.dart:12:19 - always_put_required_named_parameters_first
+  error - Undefined name 'AppShadows' - lib\src\components\data_display\card\app_card.dart:53:42 - undefined_identifier
+  error - Undefined name 'AppShadows' - lib\src\components\data_display\card\app_card.dart:54:20 - undefined_identifier
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\data_display\key_value_row\app_key_value_row.dart:4:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\key_value_row\app_key_value_row.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\key_value_row\app_key_value_row.dart:11:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\data_display\list_tile\app_list_tile.dart:4:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\list_tile\app_list_tile.dart:10:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\data_display\rich_text\app_rich_text.dart:3:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\data_display\rich_text\app_rich_text.dart:5:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\data_display\rich_text\app_rich_text.dart:6:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\rich_text\app_rich_text.dart:23:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\data_display\stat_card\app_stat_card.dart:4:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\stat_card\app_stat_card.dart:11:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\stat_card\app_stat_card.dart:12:19 - always_put_required_named_parameters_first
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\data_display\stat_card\app_stat_card.dart:57:61 - deprecated_member_use
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\data_display\tag\app_tag.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\tag\app_tag.dart:10:19 - always_put_required_named_parameters_first
+   info - Use 'const' for final variables initialized to a constant value - lib\src\components\data_display\tag\app_tag.dart:26:5 - prefer_const_declarations
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\data_display\text\app_text.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\data_display\text\app_text.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\data_display\text\app_text.dart:5:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\data_display\timeline\app_timeline.dart:4:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\data_display\timeline\app_timeline.dart:27:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\feedback\alert\app_alert.dart:12:19 - always_put_required_named_parameters_first
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\feedback\alert\app_alert.dart:62:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\feedback\alert\app_alert.dart:79:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\feedback\alert\app_alert.dart:98:60 - deprecated_member_use
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\feedback\empty_state\app_empty_state.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart' - lib\src\components\feedback\loader\app_loader.dart:3:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\feedback\loader\app_loader.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\feedback\loader\app_loader.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\feedback\retry_wrapper\app_retry_wrapper.dart:8:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\feedback\retry_wrapper\app_retry_wrapper.dart:9:19 - always_put_required_named_parameters_first
+   info - Statements in an if should be enclosed in a block - lib\src\components\feedback\retry_wrapper\app_retry_wrapper.dart:42:9 - curly_braces_in_flow_control_structures
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart' - lib\src\components\feedback\skeleton\app_skeleton.dart:3:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\feedback\skeleton\app_skeleton.dart:5:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\feedback\skeleton\app_skeleton.dart:56:36 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\src\components\feedback\snackbar\app_snackbar.dart:40:18 - prefer_const_constructors
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\async_dropdown\app_async_dropdown.dart:7:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\async_dropdown\app_async_dropdown.dart:8:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\async_dropdown\app_async_dropdown.dart:9:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\base\app_form_wrapper.dart:6:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\inputs\dropdown\app_dropdown.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\inputs\dropdown\app_dropdown.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\inputs\dropdown\app_dropdown.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\dropdown\app_dropdown.dart:17:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\dropdown\app_dropdown.dart:18:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\dropdown\app_dropdown.dart:19:19 - always_put_required_named_parameters_first
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\src\components\inputs\dropdown\app_dropdown.dart:43:7 - deprecated_member_use
+   info - Statements in a for should be enclosed in a block - lib\src\components\inputs\otp_field\app_otp_field.dart:54:35 - curly_braces_in_flow_control_structures
+   info - Statements in a for should be enclosed in a block - lib\src\components\inputs\otp_field\app_otp_field.dart:55:34 - curly_braces_in_flow_control_structures
+   info - Unnecessary 'this.' qualifier - lib\src\components\inputs\otp_field\app_otp_field.dart:72:17 - unnecessary_this
+   info - Use 'const' with the constructor to improve performance - lib\src\components\inputs\otp_field\app_otp_field.dart:175:21 - prefer_const_constructors
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\rating_input\app_rating_input.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\rating_input\app_rating_input.dart:11:19 - always_put_required_named_parameters_first
+  error - Undefined name 'AppIconSizes' - lib\src\components\inputs\rating_input\app_rating_input.dart:13:21 - undefined_identifier
+   info - Use 'const' with the constructor to improve performance - lib\src\components\inputs\search_field\app_search_field.dart:79:17 - prefer_const_constructors
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\inputs\slider\app_slider.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\inputs\slider\app_slider.dart:4:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\slider\app_slider.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\inputs\slider\app_slider.dart:11:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\inputs\text_field\app_text_field.dart:5:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\inputs\text_field\app_text_field.dart:6:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\media\hero_wrapper\app_hero_wrapper.dart:6:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\media\hero_wrapper\app_hero_wrapper.dart:7:19 - always_put_required_named_parameters_first
+  error - Undefined name 'AppIconSizes' - lib\src\components\media\icon\app_icon.dart:11:17 - undefined_identifier
+   info - Required named parameters should be before optional named parameters - lib\src\components\media\icon\app_icon.dart:33:19 - always_put_required_named_parameters_first
+  error - Undefined name 'AppIconSizes' - lib\src\components\media\icon\app_icon.dart:36:17 - undefined_identifier
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart' - lib\src\components\media\image\app_image.dart:3:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\media\image\app_image.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\media\image\app_image.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\media\image\app_image.dart:12:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\overlays\bottom_sheet\app_bottom_sheet.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\overlays\bottom_sheet\app_bottom_sheet.dart:4:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\overlays\bottom_sheet\app_bottom_sheet.dart:10:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\overlays\context_menu\app_context_menu.dart:4:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\overlays\context_menu\app_context_menu.dart:27:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\overlays\context_menu\app_context_menu.dart:28:19 - always_put_required_named_parameters_first
+  error - The argument type 'List<StatefulWidget>' can't be assigned to the parameter type 'List<PopupMenuEntry<dynamic>>'.  - lib\src\components\overlays\context_menu\app_context_menu.dart:56:14 - argument_type_not_assignable
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\overlays\dialog\app_dialog.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\overlays\dialog\app_dialog.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\overlays\dialog\app_dialog.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\overlays\dialog\app_dialog.dart:70:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart' - lib\src\components\overlays\modal\app_modal.dart:3:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\overlays\modal\app_modal.dart:10:19 - always_put_required_named_parameters_first
+   info - Use 'const' with the constructor to improve performance - lib\src\components\overlays\modal\app_modal.dart:55:14 - prefer_const_constructors
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\overlays\tooltip\app_tooltip.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\overlays\tooltip\app_tooltip.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\overlays\tooltip\app_tooltip.dart:11:19 - always_put_required_named_parameters_first
+   info - Use 'const' with the constructor to improve performance - lib\src\components\overlays\tooltip\app_tooltip.dart:33:19 - prefer_const_constructors
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\selection\checkbox\app_checkbox.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\selection\checkbox\app_checkbox.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\selection\checkbox\app_checkbox.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\checkbox\app_checkbox.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\checkbox\app_checkbox.dart:11:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\selection\choice_chip\app_choice_chip.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\selection\choice_chip\app_choice_chip.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\selection\choice_chip\app_choice_chip.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\choice_chip\app_choice_chip.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\choice_chip\app_choice_chip.dart:11:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\choice_chip\app_choice_chip.dart:12:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\selection\filter_chip\app_filter_chip.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\filter_chip\app_filter_chip.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\filter_chip\app_filter_chip.dart:11:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\filter_chip\app_filter_chip.dart:12:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\selection\input_chip\app_input_chip.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\input_chip\app_input_chip.dart:10:19 - always_put_required_named_parameters_first
+   info - Use 'const' with the constructor to improve performance - lib\src\components\selection\input_chip\app_input_chip.dart:33:14 - prefer_const_constructors
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\selection\radio\app_radio.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\selection\radio\app_radio.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\radio\app_radio.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\radio\app_radio.dart:11:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\radio\app_radio.dart:12:19 - always_put_required_named_parameters_first
+warning - The value of the local variable 'color' isn't used - lib\src\components\selection\radio\app_radio.dart:26:11 - unused_local_variable
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\src\components\selection\radio\app_radio.dart:32:7 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\src\components\selection\radio\app_radio.dart:33:7 - deprecated_member_use
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\radio\app_radio.dart:60:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\radio\app_radio.dart:61:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\radio\app_radio.dart:62:19 - always_put_required_named_parameters_first
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart' - lib\src\components\selection\selectable_card\app_selectable_card.dart:3:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\selection\selectable_card\app_selectable_card.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\selection\selectable_card\app_selectable_card.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\selectable_card\app_selectable_card.dart:11:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\selectable_card\app_selectable_card.dart:12:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\selectable_card\app_selectable_card.dart:13:19 - always_put_required_named_parameters_first
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\selection\selectable_card\app_selectable_card.dart:28:53 - deprecated_member_use
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\selectable_tile\app_selectable_tile.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\selectable_tile\app_selectable_tile.dart:11:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\selectable_tile\app_selectable_tile.dart:12:19 - always_put_required_named_parameters_first
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\src\components\selection\selectable_tile\app_selectable_tile.dart:37:33 - deprecated_member_use
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\selection\switch\app_switch.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\selection\switch\app_switch.dart:4:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart' - lib\src\components\selection\switch\app_switch.dart:5:8 - unused_import
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\switch\app_switch.dart:10:19 - always_put_required_named_parameters_first
+   info - Required named parameters should be before optional named parameters - lib\src\components\selection\switch\app_switch.dart:11:19 - always_put_required_named_parameters_first
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\src\components\selection\switch\app_switch.dart:32:7 - deprecated_member_use
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart' - lib\src\components\selection\tag_selector\app_tag_selector.dart:2:8 - unused_import
+warning - Unused import: 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart' - lib\src\components\selection\tag_selector\app_tag_selector.dart:4:8 - unused_import
+  error - The method 'AppChoiceChip' isn't defined for the type 'AppTagSelector' - lib\src\components\selection\tag_selector\app_tag_selector.dart:40:20 - undefined_method
+
