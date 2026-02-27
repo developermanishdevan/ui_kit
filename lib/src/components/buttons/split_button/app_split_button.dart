@@ -1,93 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
+import '../../../../ui_kit.dart';
 
-class AppSplitButton extends StatelessWidget {
+/// A premium Split Button component.
+class AppSplitButton extends AppStatelessWrapper {
+  final String label;
+  final VoidCallback? onPressed;
+  final VoidCallback? onDropdownPressed;
+  final Widget? icon;
+  final AppButtonColor color;
+  final AppButtonSize size;
+  final bool isLoading;
+
   const AppSplitButton({
-    required this.label,
-    required this.onPressed,
-    required this.onDropdownPressed,
     super.key,
+    required this.label,
+    this.onPressed,
+    this.onDropdownPressed,
     this.icon,
-    this.height = 44,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.dropdownIcon = Icons.keyboard_arrow_down,
+    this.color = AppButtonColor.primary,
+    this.size = AppButtonSize.md,
+    this.isLoading = false,
   });
 
-  final String label;
-  final VoidCallback onPressed;
-  final VoidCallback onDropdownPressed;
-  final IconData? icon;
-  final double height;
-  final Color? backgroundColor;
-  final Color? foregroundColor;
-  final IconData dropdownIcon;
-
   @override
-  Widget build(BuildContext context) {
-    final bg = backgroundColor ?? AppColors.primary;
-    final fg = foregroundColor ?? AppColors.white;
+  Widget buildWidget(BuildContext context) {
+    final radii = context.theme.extension<AppRadiusExtension>()!;
 
-    return SizedBox(
-      height: height,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Main action
-          Material(
-            color: bg,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(AppRadius.md),
-              bottomLeft: Radius.circular(AppRadius.md),
-            ),
-            child: InkWell(
-              onTap: onPressed,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(AppRadius.md),
-                bottomLeft: Radius.circular(AppRadius.md),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (icon != null) ...[
-                      Icon(icon, size: 18, color: fg),
-                      const SizedBox(width: 8),
-                    ],
-                    Text(label,
-                        style: AppTypography.labelLarge.copyWith(color: fg)),
-                  ],
-                ),
-              ),
+    final borderRadius = radii.base;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Main action
+        Expanded(
+          flex: 0,
+          child: AppButton(
+            label: label,
+            onPressed: onPressed,
+            icon: icon,
+            color: color,
+            variant: AppButtonVariant.solid,
+            size: size,
+            isLoading: isLoading,
+            borderRadius: BorderRadius.only(
+              topLeft: borderRadius.topLeft,
+              bottomLeft: borderRadius.bottomLeft,
             ),
           ),
-          // Divider
-          Container(
-              width: 1, color: fg.withValues(alpha: 0.3), height: height * 0.6),
-          // Dropdown trigger
-          Material(
-            color: bg,
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(AppRadius.md),
-              bottomRight: Radius.circular(AppRadius.md),
-            ),
-            child: InkWell(
-              onTap: onDropdownPressed,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(AppRadius.md),
-                bottomRight: Radius.circular(AppRadius.md),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Icon(dropdownIcon, size: 20, color: fg),
-              ),
-            ),
+        ),
+        // Separator
+        Container(
+          width: 1,
+          height: 24, // Fixed height for separator
+          color: Colors.white.withValues(alpha: 0.2),
+        ),
+        // Dropdown trigger
+        AppButton(
+          label: '',
+          onPressed: onDropdownPressed,
+          icon: const Icon(Icons.expand_more, size: 20),
+          color: color,
+          variant: AppButtonVariant.solid,
+          size: size,
+          borderRadius: BorderRadius.only(
+            topRight: borderRadius.topRight,
+            bottomRight: borderRadius.bottomRight,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

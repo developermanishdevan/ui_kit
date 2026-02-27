@@ -1,78 +1,151 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
+import '../../../../ui_kit.dart';
 
-enum AppBadgeVariant { filled, outlined, light }
+enum AppBadgeVariant {
+  primary,
+  secondary,
+  success,
+  danger,
+  warning,
+  info,
+  light,
+  dark,
+}
 
-enum AppBadgeColor { primary, success, warning, error, info, neutral }
+enum AppBadgeType { fill, outline, soft }
 
-class AppBadge extends StatelessWidget {
-  const AppBadge({
-    required this.label, super.key,
-    this.variant = AppBadgeVariant.filled,
-    this.color = AppBadgeColor.primary,
-    this.icon,
-    this.dot = false,
-  });
+enum AppBadgeSize { xs, sm, md, lg }
 
+class AppBadge extends AppStatelessWrapper {
   final String label;
   final AppBadgeVariant variant;
-  final AppBadgeColor color;
-  final IconData? icon;
-  final bool dot;
+  final AppBadgeType type;
+  final AppBadgeSize size;
+  final bool isPill;
+  final bool isDot;
+  final bool hasBorder;
 
-  static const _bgColors = {
-    AppBadgeColor.primary: AppColors.primaryLight,
-    AppBadgeColor.success: AppColors.successLight,
-    AppBadgeColor.warning: AppColors.warningLight,
-    AppBadgeColor.error: AppColors.errorLight,
-    AppBadgeColor.info: AppColors.infoLight,
-    AppBadgeColor.neutral: AppColors.grey100,
-  };
+  const AppBadge({
+    super.key,
+    required this.label,
+    this.variant = AppBadgeVariant.primary,
+    this.type = AppBadgeType.fill,
+    this.size = AppBadgeSize.sm,
+    this.isPill = false,
+    this.isDot = false,
+    this.hasBorder = false,
+  });
 
-  static const _fgColors = {
-    AppBadgeColor.primary: AppColors.primary,
-    AppBadgeColor.success: AppColors.success,
-    AppBadgeColor.warning: AppColors.warning,
-    AppBadgeColor.error: AppColors.error,
-    AppBadgeColor.info: AppColors.info,
-    AppBadgeColor.neutral: AppColors.textSecondary,
-  };
+  Color _getVariantColor(AppColorsExtension colors) {
+    switch (variant) {
+      case AppBadgeVariant.primary:
+        return colors.primary;
+      case AppBadgeVariant.secondary:
+        return colors.secondary;
+      case AppBadgeVariant.success:
+        return colors.success;
+      case AppBadgeVariant.danger:
+        return colors.danger;
+      case AppBadgeVariant.warning:
+        return colors.warning;
+      case AppBadgeVariant.info:
+        return colors.info;
+      case AppBadgeVariant.light:
+        return colors.bodyBg;
+      case AppBadgeVariant.dark:
+        return colors.textEmphasis;
+    }
+  }
 
   @override
-  Widget build(BuildContext context) {
-    final bg = _bgColors[color]!;
-    final fg = _fgColors[color]!;
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final color = _getVariantColor(colors);
 
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: AppSpacing.px2,
-      ),
-      decoration: BoxDecoration(
-        color: variant == AppBadgeVariant.outlined ? Colors.transparent : bg,
-        borderRadius: AppRadius.fullAll,
-        border:
-            variant == AppBadgeVariant.outlined ? Border.all(color: fg) : null,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (dot)
-            Container(
-              width: 6,
-              height: 6,
-              decoration: BoxDecoration(color: fg, shape: BoxShape.circle),
-              margin: const EdgeInsets.only(right: 4),
-            ),
-          if (icon != null) ...[
-            Icon(icon, size: 12, color: fg),
-            const SizedBox(width: 4),
-          ],
-          Text(label, style: AppTypography.labelSmall.copyWith(color: fg)),
-        ],
+    double dotSize;
+    double fontSize;
+    EdgeInsets padding;
+
+    switch (size) {
+      case AppBadgeSize.xs:
+        dotSize = 6;
+        fontSize = 8;
+        padding = EdgeInsets.symmetric(horizontal: spacing.s1, vertical: 1);
+        break;
+      case AppBadgeSize.sm:
+        dotSize = 10;
+        fontSize = 10;
+        padding = EdgeInsets.symmetric(horizontal: spacing.s2, vertical: 2);
+        break;
+      case AppBadgeSize.md:
+        dotSize = 12;
+        fontSize = 12;
+        padding = EdgeInsets.symmetric(horizontal: spacing.s2 + 2, vertical: 3);
+        break;
+      case AppBadgeSize.lg:
+        dotSize = 14;
+        fontSize = 14;
+        padding = EdgeInsets.symmetric(horizontal: spacing.s3, vertical: 4);
+        break;
+    }
+
+    if (isDot) {
+      return Container(
+        width: dotSize,
+        height: dotSize,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+          border: hasBorder ? Border.all(color: colors.bodyBg, width: 2) : null,
+        ),
+      );
+    }
+
+    Color bgColor;
+    Color textColor;
+    Border? border;
+
+    switch (type) {
+      case AppBadgeType.fill:
+        bgColor = color;
+        textColor = (variant == AppBadgeVariant.light)
+            ? colors.bodyColor
+            : Colors.white;
+        if (hasBorder) {
+          border = Border.all(color: colors.bodyBg, width: 2);
+        }
+        break;
+      case AppBadgeType.outline:
+        bgColor = Colors.transparent;
+        textColor = color;
+        border = Border.all(color: color, width: 1);
+        break;
+      case AppBadgeType.soft:
+        bgColor = color.withValues(alpha: 0.1);
+        textColor = color;
+        break;
+    }
+
+    return AppSemantics(
+      label: label,
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          color: bgColor,
+          border: border,
+          borderRadius: isPill ? radii.pill : radii.base,
+        ),
+        child: Text(
+          label,
+          style: typography.bodySm.copyWith(
+            color: textColor,
+            fontWeight: AppTypography.semiBold,
+            fontSize: fontSize,
+          ),
+        ),
       ),
     );
   }

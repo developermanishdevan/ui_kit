@@ -1,53 +1,39 @@
 import 'package:flutter/material.dart';
-import '../../foundation/tokens/durations/app_durations.dart';
 
-class AppFadeAnimation extends StatefulWidget {
+/// A wrapper around [AnimatedOpacity] for easy fade animations.
+class AppFadeAnimation extends StatelessWidget {
+  /// The widget below this widget in the tree.
+  final Widget child;
+
+  /// The target opacity.
+  final double opacity;
+
+  /// The duration of the animation.
+  final Duration duration;
+
+  /// The curve to apply when animating the opacity.
+  final Curve curve;
+
+  /// Called every time the animation completes.
+  final VoidCallback? onEnd;
+
   const AppFadeAnimation({
-    required this.child, super.key,
-    this.duration = AppDurations.medium,
-    this.delay = Duration.zero,
-    this.curve = Curves.easeIn,
-    this.begin = 0.0,
+    super.key,
+    required this.child,
+    required this.opacity,
+    this.duration = const Duration(milliseconds: 300),
+    this.curve = Curves.easeInOut,
+    this.onEnd,
   });
 
-  final Widget child;
-  final Duration duration;
-  final Duration delay;
-  final Curve curve;
-  final double begin;
-
   @override
-  State<AppFadeAnimation> createState() => _AppFadeAnimationState();
-}
-
-class _AppFadeAnimationState extends State<AppFadeAnimation>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-  late final Animation<double> _anim;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(vsync: this, duration: widget.duration);
-    _anim = Tween<double>(begin: widget.begin, end: 1.0)
-        .animate(CurvedAnimation(parent: _ctrl, curve: widget.curve));
-
-    if (widget.delay == Duration.zero) {
-      _ctrl.forward();
-    } else {
-      Future.delayed(widget.delay, () {
-        if (mounted) _ctrl.forward();
-      });
-    }
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: opacity,
+      duration: duration,
+      curve: curve,
+      onEnd: onEnd,
+      child: child,
+    );
   }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) =>
-      FadeTransition(opacity: _anim, child: widget.child);
 }

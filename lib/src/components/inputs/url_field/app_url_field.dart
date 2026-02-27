@@ -1,42 +1,36 @@
 import 'package:flutter/material.dart';
-import '../text_field/app_text_field.dart';
-import '../../../utils/validators/app_validators.dart';
+import '../../../../ui_kit.dart';
 
-class AppUrlField extends StatelessWidget {
+/// A premium URL input field.
+class AppUrlField extends AppStatelessWrapper {
+  final TextEditingController? controller;
+  final String? labelText;
+  final String? hintText;
+  final String? errorText;
+  final ValueChanged<String>? onChanged;
+  final bool enabled;
+
   const AppUrlField({
     super.key,
     this.controller,
-    this.label = 'Website URL',
-    this.hint = 'https://example.com',
+    this.labelText = 'Website URL',
+    this.hintText = 'https://example.com',
+    this.errorText,
     this.onChanged,
-    this.onSubmitted,
-    this.validator,
     this.enabled = true,
-    this.textInputAction,
   });
 
-  final TextEditingController? controller;
-  final String? label;
-  final String? hint;
-  final ValueChanged<String>? onChanged;
-  final ValueChanged<String>? onSubmitted;
-  final String? Function(String?)? validator;
-  final bool enabled;
-  final TextInputAction? textInputAction;
-
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return AppTextField(
       controller: controller,
-      label: label,
-      hint: hint,
-      prefixIcon: Icons.link_outlined,
-      keyboardType: TextInputType.url,
-      textInputAction: textInputAction ?? TextInputAction.next,
+      labelText: labelText,
+      hintText: hintText,
+      errorText: errorText,
       onChanged: onChanged,
-      onSubmitted: onSubmitted,
       enabled: enabled,
-      validator: validator ?? AppValidators.url,
+      keyboardType: TextInputType.url,
+      prefixIcon: const Icon(Icons.link_outlined),
     );
   }
 }

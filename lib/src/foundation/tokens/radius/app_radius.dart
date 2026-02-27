@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 
-abstract final class AppRadius {
-  static const double none = 0.0;
-  static const double xs = 2.0;
-  static const double sm = 4.0;
-  static const double md = 8.0;
-  static const double lg = 12.0;
-  static const double xl = 16.0;
-  static const double xl2 = 20.0;
-  static const double xl3 = 24.0;
-  static const double full = 9999.0;
+class AppRadius {
+  static const double base = 5.6; // .35rem
+  static const double sm = 4.0; // .25rem
+  static const double lg = 8.0; // .5rem
+  static const double xl = 16.0; // 1rem
+  static const double xxl = 32.0; // 2rem
+  static const double pill = 500.0; // 50rem
 
-  // BorderRadius convenience
-  static const BorderRadius noneAll = BorderRadius.zero;
-  static const BorderRadius xsAll = BorderRadius.all(Radius.circular(xs));
-  static const BorderRadius smAll = BorderRadius.all(Radius.circular(sm));
-  static const BorderRadius mdAll = BorderRadius.all(Radius.circular(md));
-  static const BorderRadius lgAll = BorderRadius.all(Radius.circular(lg));
-  static const BorderRadius xlAll = BorderRadius.all(Radius.circular(xl));
-  static const BorderRadius xl2All = BorderRadius.all(Radius.circular(xl2));
-  static const BorderRadius xl3All = BorderRadius.all(Radius.circular(xl3));
-  static const BorderRadius fullAll = BorderRadius.all(Radius.circular(full));
+  static BorderRadius get baseRadius => BorderRadius.circular(base);
+  static BorderRadius get smRadius => BorderRadius.circular(sm);
+  static BorderRadius get lgRadius => BorderRadius.circular(lg);
+  static BorderRadius get xlRadius => BorderRadius.circular(xl);
+  static BorderRadius get xxlRadius => BorderRadius.circular(xxl);
+  static BorderRadius get pillRadius => BorderRadius.circular(pill);
 }

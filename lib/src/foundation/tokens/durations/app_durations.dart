@@ -1,10 +1,19 @@
-abstract final class AppDurations {
-  static const Duration instant = Duration.zero;
-  static const Duration fast = Duration(milliseconds: 100);
-  static const Duration normal = Duration(milliseconds: 200);
-  static const Duration medium = Duration(milliseconds: 300);
+/// Centralized list of durations to be used for components, animations, and transitions.
+class AppDurations {
+  AppDurations._();
+
+  /// Very fast transition: 100ms
+  static const Duration quickest = Duration(milliseconds: 100);
+
+  /// Fast transition: 200ms
+  static const Duration quick = Duration(milliseconds: 200);
+
+  /// Normal standard transition: 300ms
+  static const Duration normal = Duration(milliseconds: 300);
+
+  /// Slow transition: 500ms
   static const Duration slow = Duration(milliseconds: 500);
-  static const Duration slower = Duration(milliseconds: 750);
-  static const Duration slowest = Duration(milliseconds: 1000);
-  static const Duration page = Duration(milliseconds: 350);
+
+  /// Very slow transition: 800ms
+  static const Duration slowest = Duration(milliseconds: 800);
 }

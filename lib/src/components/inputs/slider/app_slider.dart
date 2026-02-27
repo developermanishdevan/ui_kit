@@ -1,85 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
+import '../../../../ui_kit.dart';
 
-class AppSlider extends StatelessWidget {
-  const AppSlider({
-    required this.value, required this.onChanged, super.key,
-    this.min = 0.0,
-    this.max = 100.0,
-    this.divisions,
-    this.label,
-    this.showLabel = true,
-    this.showMinMax = true,
-    this.enabled = true,
-    this.activeColor,
-    this.inactiveColor,
-    this.formatLabel,
-  });
-
+/// A premium Slider input field.
+class AppSlider extends AppStatelessWrapper {
   final double value;
-  final ValueChanged<double>? onChanged;
   final double min;
   final double max;
   final int? divisions;
   final String? label;
-  final bool showLabel;
-  final bool showMinMax;
+  final ValueChanged<double>? onChanged;
+  final String? labelText;
+  final AppButtonColor color;
   final bool enabled;
-  final Color? activeColor;
-  final Color? inactiveColor;
-  final String Function(double)? formatLabel;
 
-  String _format(double v) => formatLabel?.call(v) ?? v.toStringAsFixed(0);
+  const AppSlider({
+    super.key,
+    required this.value,
+    this.min = 0,
+    this.max = 100,
+    this.divisions,
+    this.label,
+    this.onChanged,
+    this.labelText,
+    this.color = AppButtonColor.primary,
+    this.enabled = true,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+
+    final themeColor = _getThemeColor(colors);
+
     return Column(
-      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        if (label != null) ...[
+        if (labelText != null) ...[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label!, style: AppTypography.labelMedium),
-              if (showLabel)
-                Text(_format(value),
-                    style: AppTypography.labelMedium.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    )),
+              Text(
+                labelText!,
+                style: typography.bodyBase.copyWith(
+                  fontWeight: AppTypography.medium,
+                  color: colors.textEmphasis,
+                ),
+              ),
+              Text(
+                value.toStringAsFixed(0),
+                style: typography.bodySm.copyWith(
+                  fontWeight: AppTypography.bold,
+                  color: themeColor,
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: AppSpacing.xs),
+          SizedBox(height: spacing.s1),
         ],
-        Slider(
-          value: value,
-          min: min,
-          max: max,
-          divisions: divisions,
-          label: showLabel ? _format(value) : null,
-          onChanged: enabled ? onChanged : null,
-          activeColor: activeColor,
-          inactiveColor: inactiveColor,
-        ),
-        if (showMinMax)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(_format(min),
-                    style: AppTypography.caption.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    )),
-                Text(_format(max),
-                    style: AppTypography.caption.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    )),
-              ],
+        SliderTheme(
+          data: SliderThemeData(
+            trackHeight: 4,
+            activeTrackColor: themeColor,
+            inactiveTrackColor: colors.borderColor.withValues(alpha: 0.3),
+            thumbColor: Colors.white,
+            overlayColor: themeColor.withValues(alpha: 0.2),
+            valueIndicatorColor: themeColor,
+            valueIndicatorTextStyle: const TextStyle(color: Colors.white),
+            thumbShape: const RoundSliderThumbShape(
+              enabledThumbRadius: 10,
+              elevation: 4,
             ),
           ),
+          child: Slider(
+            value: value,
+            min: min,
+            max: max,
+            divisions: divisions,
+            label: label ?? value.toStringAsFixed(0),
+            onChanged: enabled ? onChanged : null,
+          ),
+        ),
       ],
     );
+  }
+
+  Color _getThemeColor(AppColorsExtension colors) {
+    switch (color) {
+      case AppButtonColor.primary:
+        return colors.primary;
+      case AppButtonColor.secondary:
+        return colors.secondary;
+      case AppButtonColor.success:
+        return colors.success;
+      case AppButtonColor.warning:
+        return colors.warning;
+      case AppButtonColor.danger:
+        return colors.danger;
+      case AppButtonColor.info:
+        return colors.info;
+      case AppButtonColor.light:
+        return colors.light;
+      case AppButtonColor.dark:
+        return colors.dark;
+    }
   }
 }

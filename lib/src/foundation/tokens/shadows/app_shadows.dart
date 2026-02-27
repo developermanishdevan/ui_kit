@@ -1,80 +1,41 @@
 import 'package:flutter/material.dart';
 
-abstract final class AppShadows {
+class AppShadows {
+  static const BoxShadow base = BoxShadow(
+    color: Color(0x07000000), // 0.03 opacity
+    offset: Offset(0, 3),
+    blurRadius: 4,
+    spreadRadius: 0,
+  );
+
+  static const BoxShadow sm = BoxShadow(
+    color: Color(0x13000000), // 0.075 opacity
+    offset: Offset(0, 2), // 0.125rem
+    blurRadius: 4, // 0.25rem
+    spreadRadius: 0,
+  );
+
+  static const BoxShadow lg = BoxShadow(
+    color: Color(0x1E1E2025), // rgba(30, 32, 37, 0.12)
+    offset: Offset(0, 5),
+    blurRadius: 10,
+    spreadRadius: 0,
+  );
+
   static const List<BoxShadow> none = [];
 
-  static const List<BoxShadow> xs = [
-    BoxShadow(
-      color: Color(0x0A000000),
-      blurRadius: 2,
-      offset: Offset(0, 1),
-    ),
-  ];
-
-  static const List<BoxShadow> sm = [
-    BoxShadow(
-      color: Color(0x0F000000),
-      blurRadius: 4,
-      offset: Offset(0, 1),
-    ),
-    BoxShadow(
-      color: Color(0x0A000000),
-      blurRadius: 2,
-      offset: Offset(0, 1),
-    ),
-  ];
-
-  static const List<BoxShadow> md = [
-    BoxShadow(
-      color: Color(0x14000000),
-      blurRadius: 6,
-      offset: Offset(0, 4),
-      spreadRadius: -1,
-    ),
-    BoxShadow(
-      color: Color(0x0D000000),
-      blurRadius: 4,
-      offset: Offset(0, 2),
-      spreadRadius: -1,
-    ),
-  ];
-
-  static const List<BoxShadow> lg = [
-    BoxShadow(
-      color: Color(0x19000000),
-      blurRadius: 15,
-      offset: Offset(0, 10),
-      spreadRadius: -3,
-    ),
-    BoxShadow(
-      color: Color(0x0D000000),
-      blurRadius: 6,
-      offset: Offset(0, 4),
-      spreadRadius: -2,
-    ),
-  ];
-
-  static const List<BoxShadow> xl = [
-    BoxShadow(
-      color: Color(0x1F000000),
-      blurRadius: 25,
-      offset: Offset(0, 20),
-      spreadRadius: -5,
-    ),
-    BoxShadow(
-      color: Color(0x0D000000),
-      blurRadius: 10,
-      offset: Offset(0, 8),
-      spreadRadius: -5,
-    ),
-  ];
-
-  static const List<BoxShadow> inner = [
-    BoxShadow(
-      color: Color(0x0F000000),
-      blurRadius: 4,
-      offset: Offset(0, 2),
-      spreadRadius: -1,
-    ),
-  ];
+  static List<BoxShadow> button3dShadow(Color baseColor) {
+    return [
+      BoxShadow(
+        color: baseColor.withValues(alpha: 0.5),
+        blurRadius: 4,
+        offset: const Offset(0, 3),
+      ),
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.12),
+        blurRadius: 0,
+        offset: const Offset(0, -3),
+      ),
+    ];
+  }
 }

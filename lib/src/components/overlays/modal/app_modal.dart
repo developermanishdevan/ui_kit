@@ -1,63 +1,204 @@
+import '../../../../ui_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
 
-class AppModal extends StatelessWidget {
+enum AppModalSize { sm, md, lg, xl, fullScreen }
+
+class AppModal extends AppStatelessWrapper {
+  final String? title;
+  final Widget content;
+  final Widget? footer;
+  final AppModalSize size;
+  final bool centered;
+  final bool scrollable;
+  final Color? backgroundColor;
+  final Color? textColor;
+
   const AppModal({
-    required this.child, super.key,
-    this.padding,
-    this.maxWidth = 560.0,
-    this.barrierDismissible = true,
+    super.key,
+    this.title,
+    required this.content,
+    this.footer,
+    this.size = AppModalSize.md,
+    this.centered = true,
+    this.scrollable = false,
+    this.backgroundColor,
+    this.textColor,
   });
 
-  final Widget child;
-  final EdgeInsetsGeometry? padding;
-  final double maxWidth;
-  final bool barrierDismissible;
-
-  static Future<T?> show<T>({
-    required BuildContext context,
-    required Widget child,
-    double maxWidth = 560.0,
-    bool barrierDismissible = true,
-    EdgeInsetsGeometry? padding,
+  static Future<T?> show<T>(
+    BuildContext context, {
+    String? title,
+    required Widget content,
+    Widget? footer,
+    AppModalSize size = AppModalSize.md,
+    bool centered = true,
+    bool scrollable = false,
+    bool dismissible = true,
+    Color? backgroundColor,
+    Color? textColor,
   }) {
-    return showGeneralDialog<T>(
+    return showDialog<T>(
       context: context,
-      barrierDismissible: barrierDismissible,
-      barrierLabel: 'Modal',
-      barrierColor: AppColors.overlayMedium,
-      transitionDuration: const Duration(milliseconds: 250),
-      pageBuilder: (ctx, anim, _) => AppModal(
-        maxWidth: maxWidth,
-        padding: padding,
-        barrierDismissible: barrierDismissible,
-        child: child,
-      ),
-      transitionBuilder: (ctx, anim, _, child2) => FadeTransition(
-        opacity: anim,
-        child: ScaleTransition(
-          scale: Tween<double>(begin: 0.92, end: 1.0).animate(
-            CurvedAnimation(parent: anim, curve: Curves.easeOut),
-          ),
-          child: child2,
-        ),
+      barrierDismissible: dismissible,
+      builder: (context) => AppModal(
+        title: title,
+        content: content,
+        footer: footer,
+        size: size,
+        centered: centered,
+        scrollable: scrollable,
+        backgroundColor: backgroundColor,
+        textColor: textColor,
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
+    final theme = Theme.of(context).extension<AppColorsExtension>()!;
+    final double maxWidth = _getMaxWidth(context);
+    final Color effectiveBg = backgroundColor ?? theme.bodyBg;
+    final Color effectiveText = textColor ?? theme.textEmphasis;
+
+    Widget modalContent = Material(
+      color: effectiveBg,
+      borderRadius: size == AppModalSize.fullScreen
+          ? BorderRadius.zero
+          : BorderRadius.circular(4),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (title != null) _buildHeader(context, effectiveText),
+          if (scrollable)
+            Flexible(child: SingleChildScrollView(child: content))
+          else
+            content,
+          ?footer,
+        ],
+      ),
+    );
+
+    if (size == AppModalSize.fullScreen) {
+      return Dialog.fullscreen(
+        backgroundColor: effectiveBg,
+        child: modalContent,
+      );
+    }
+
     return Dialog(
-      shape: const RoundedRectangleBorder(borderRadius: AppRadius.xlAll),
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      alignment: centered ? Alignment.center : Alignment.topCenter,
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
-        child: Padding(
-          padding: padding ?? const EdgeInsets.all(AppSpacing.xl),
-          child: child,
+        child: modalContent,
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, Color textColor) {
+    final theme = Theme.of(context).extension<AppColorsExtension>()!;
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 16, 16, 16),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: theme.borderColor.withAlpha(50)),
         ),
       ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              title!,
+              style: Theme.of(context)
+                  .extension<AppTypographyExtension>()!
+                  .h5
+                  .copyWith(
+                    fontWeight: AppTypography.semiBold,
+                    color: textColor,
+                  ),
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.close, size: 20, color: textColor.withAlpha(150)),
+            onPressed: () => Navigator.of(context).pop(),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            splashRadius: 20,
+          ),
+        ],
+      ),
+    );
+  }
+
+  double _getMaxWidth(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    switch (size) {
+      case AppModalSize.sm:
+        return 300;
+      case AppModalSize.md:
+        return 500;
+      case AppModalSize.lg:
+        return 800;
+      case AppModalSize.xl:
+        return 1140;
+      case AppModalSize.fullScreen:
+        return width;
+    }
+  }
+}
+
+class AppModalBody extends AppStatelessWrapper {
+  final Widget child;
+  final EdgeInsets padding;
+
+  const AppModalBody({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(20),
+  });
+
+  @override
+  Widget buildWidget(BuildContext context) {
+    return Padding(
+      padding: padding,
+      child: DefaultTextStyle(
+        style: Theme.of(context)
+            .extension<AppTypographyExtension>()!
+            .bodyBase
+            .copyWith(
+              color: Theme.of(
+                context,
+              ).extension<AppColorsExtension>()!.bodyColor,
+            ),
+        child: child,
+      ),
+    );
+  }
+}
+
+class AppModalFooter extends AppStatelessWrapper {
+  final List<Widget> children;
+  final EdgeInsets padding;
+
+  const AppModalFooter({
+    super.key,
+    required this.children,
+    this.padding = const EdgeInsets.all(16),
+  });
+
+  @override
+  Widget buildWidget(BuildContext context) {
+    final theme = Theme.of(context).extension<AppColorsExtension>()!;
+    return Container(
+      padding: padding,
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: theme.borderColor.withAlpha(50))),
+      ),
+      child: Wrap(alignment: WrapAlignment.end, spacing: 8, children: children),
     );
   }
 }

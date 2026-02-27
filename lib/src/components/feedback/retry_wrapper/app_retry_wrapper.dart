@@ -1,64 +1,64 @@
 import 'package:flutter/material.dart';
+import '../../../../ui_kit.dart';
 
-enum _RetryState { loading, data, error }
+/// A wrapper widget that provides a retry mechanism.
+class AppRetryWrapper extends AppStatelessWrapper {
+  final Widget child;
+  final bool isError;
+  final String? errorText;
+  final VoidCallback onRetry;
+  final String retryLabel;
 
-class AppRetryWrapper extends StatefulWidget {
   const AppRetryWrapper({
-    required this.future, required this.builder, super.key,
-    this.errorBuilder,
-    this.loadingBuilder,
-    this.onRetry,
+    super.key,
+    required this.child,
+    required this.isError,
+    required this.onRetry,
+    this.errorText = 'Failed to load content',
+    this.retryLabel = 'Retry',
   });
 
-  final Future<void> Function() future;
-  final Widget Function(BuildContext) builder;
-  final Widget Function(BuildContext, Object?)? errorBuilder;
-  final Widget Function(BuildContext)? loadingBuilder;
-  final VoidCallback? onRetry;
-
   @override
-  State<AppRetryWrapper> createState() => _AppRetryWrapperState();
-}
+  Widget buildWidget(BuildContext context) {
+    if (!isError) return child;
 
-class _AppRetryWrapperState extends State<AppRetryWrapper> {
-  _RetryState _state = _RetryState.loading;
-  Object? _error;
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
 
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    setState(() => _state = _RetryState.loading);
-    try {
-      await widget.future();
-      if (mounted) setState(() => _state = _RetryState.data);
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _state = _RetryState.error;
-          _error = e;
-        });
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return switch (_state) {
-      _RetryState.loading => widget.loadingBuilder?.call(context) ??
-          const Center(child: CircularProgressIndicator()),
-      _RetryState.error => widget.errorBuilder?.call(context, _error) ??
-          Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              const Text('Something went wrong'),
-              const SizedBox(height: 12),
-              FilledButton(onPressed: _load, child: const Text('Retry')),
-            ]),
-          ),
-      _RetryState.data => widget.builder(context),
-    };
+    return Center(
+      child: Container(
+        padding: EdgeInsets.all(spacing.s4),
+        decoration: BoxDecoration(
+          color: colors.danger.withValues(alpha: 0.05),
+          border: Border.all(color: colors.danger.withValues(alpha: 0.2)),
+          borderRadius: radii.base,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.error_outline, color: colors.danger, size: 32),
+            SizedBox(height: spacing.s3),
+            Text(
+              errorText!,
+              style: typography.bodyBase.copyWith(
+                color: colors.textEmphasis,
+                fontWeight: AppTypography.semiBold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: spacing.s4),
+            AppButton(
+              label: retryLabel,
+              onPressed: onRetry,
+              color: AppButtonColor.danger,
+              variant: AppButtonVariant.outline,
+              size: AppButtonSize.sm,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

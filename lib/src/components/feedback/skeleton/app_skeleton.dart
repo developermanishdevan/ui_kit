@@ -1,60 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
+import '../../../../ui_kit.dart';
 
-class AppSkeleton extends StatefulWidget {
+enum AppSkeletonVariant { rectangle, circle, text }
+
+/// A premium Skeleton component for placeholder loading.
+class AppSkeleton extends AppStatelessWrapper {
+  final double? width;
+  final double? height;
+  final double? borderRadius;
+  final AppSkeletonVariant variant;
+
   const AppSkeleton({
     super.key,
     this.width,
-    this.height = 16,
+    this.height,
     this.borderRadius,
-    this.isCircle = false,
+    this.variant = AppSkeletonVariant.rectangle,
   });
 
-  final double? width;
-  final double height;
-  final BorderRadius? borderRadius;
-  final bool isCircle;
+  const AppSkeleton.text({
+    super.key,
+    this.width,
+    this.height = 12,
+    this.borderRadius = 4,
+  }) : variant = AppSkeletonVariant.text;
+
+  const AppSkeleton.circle({super.key, required double size})
+    : width = size,
+      height = size,
+      borderRadius = null,
+      variant = AppSkeletonVariant.circle;
 
   @override
-  State<AppSkeleton> createState() => _AppSkeletonState();
-}
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
 
-class _AppSkeletonState extends State<AppSkeleton>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-  late final Animation<double> _anim;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    )..repeat(reverse: true);
-    _anim = Tween<double>(begin: 0.4, end: 0.9).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _anim,
-      builder: (_, __) => Container(
-        width: widget.isCircle ? widget.height : widget.width,
-        height: widget.height,
+    return AppShimmer(
+      child: Container(
+        width: width,
+        height: height,
         decoration: BoxDecoration(
-          color: AppColors.grey200.withValues(alpha: _anim.value),
-          shape: widget.isCircle ? BoxShape.circle : BoxShape.rectangle,
-          borderRadius:
-              widget.isCircle ? null : (widget.borderRadius ?? AppRadius.smAll),
+          color: colors.bodySecondaryBg,
+          shape: variant == AppSkeletonVariant.circle
+              ? BoxShape.circle
+              : BoxShape.rectangle,
+          borderRadius: variant == AppSkeletonVariant.circle
+              ? null
+              : BorderRadius.circular(borderRadius ?? AppRadius.base),
         ),
       ),
     );

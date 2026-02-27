@@ -1,201 +1,152 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
+import '../../../../ui_kit.dart';
 
-class AppOtpField extends StatefulWidget {
+/// A premium OTP Input field with individual boxes for each digit.
+class AppOtpField extends AppStatefulWrapper {
+  final int length;
+  final ValueChanged<String>? onCompleted;
+  final ValueChanged<String>? onChanged;
+  final bool enabled;
+  final String? labelText;
+  final String? errorText;
+
   const AppOtpField({
     super.key,
     this.length = 6,
     this.onCompleted,
     this.onChanged,
-    this.obscure = false,
     this.enabled = true,
-    this.autoFocus = true,
-    this.boxSize = 52.0,
-    this.spacing = AppSpacing.sm,
+    this.labelText,
     this.errorText,
-    this.label,
   });
-
-  final int length;
-  final ValueChanged<String>? onCompleted;
-  final ValueChanged<String>? onChanged;
-  final bool obscure;
-  final bool enabled;
-  final bool autoFocus;
-  final double boxSize;
-  final double spacing;
-  final String? errorText;
-  final String? label;
 
   @override
   State<AppOtpField> createState() => _AppOtpFieldState();
 }
 
-class _AppOtpFieldState extends State<AppOtpField> {
-  late final List<TextEditingController> _controllers;
-  late final List<FocusNode> _focusNodes;
+class _AppOtpFieldState extends AppStatefulWrapperState<AppOtpField> {
+  late List<TextEditingController> _controllers;
+  late List<FocusNode> _focusNodes;
+  final List<String> _values = [];
 
   @override
   void initState() {
     super.initState();
     _controllers = List.generate(widget.length, (_) => TextEditingController());
     _focusNodes = List.generate(widget.length, (_) => FocusNode());
-    if (widget.autoFocus) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        FocusScope.of(context).requestFocus(_focusNodes[0]);
-      });
+    for (int i = 0; i < widget.length; i++) {
+      _values.add('');
     }
   }
 
   @override
   void dispose() {
-    for (final c in _controllers) {
-      c.dispose();
+    for (var controller in _controllers) {
+      controller.dispose();
     }
-    for (final f in _focusNodes) {
-      f.dispose();
+    for (var node in _focusNodes) {
+      node.dispose();
     }
     super.dispose();
   }
 
-  String get value => _controllers.map((c) => c.text).join();
-
-  void _onChanged(String val, int index) {
-    if (val.length > 1) {
+  void _onChanged(String value, int index) {
+    if (value.length > 1) {
       // Handle paste
-      final chars = val.substring(0, widget.length).split('');
-      for (int i = 0; i < chars.length && i < widget.length; i++) {
-        _controllers[i].text = chars[i];
+      final pasteText = value.substring(0, widget.length - index);
+      for (int i = 0; i < pasteText.length; i++) {
+        final char = pasteText[i];
+        _controllers[index + i].text = char;
+        _values[index + i] = char;
       }
-      _focusNodes[widget.length - 1].requestFocus();
-    } else if (val.isNotEmpty && index < widget.length - 1) {
-      _focusNodes[index + 1].requestFocus();
+      FocusScope.of(context).unfocus();
+      _triggerCallbacks();
+      return;
     }
-    final otp = value;
-    widget.onChanged?.call(otp);
-    if (otp.length == widget.length) widget.onCompleted?.call(otp);
+
+    _values[index] = value;
+    if (value.isNotEmpty && index < widget.length - 1) {
+      _focusNodes[index + 1].requestFocus();
+    } else if (value.isEmpty && index > 0) {
+      _focusNodes[index - 1].requestFocus();
+    }
+
+    _triggerCallbacks();
   }
 
-  Color _borderColor(bool hasFocus) {
-    if (widget.errorText != null) return AppColors.error;
-    return hasFocus ? AppColors.borderFocused : AppColors.borderDefault;
+  void _triggerCallbacks() {
+    final otp = _values.join();
+    if (widget.onChanged != null) widget.onChanged!(otp);
+    if (otp.length == widget.length && widget.onCompleted != null) {
+      widget.onCompleted!(otp);
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.label != null) ...[
-          Text(widget.label!, style: AppTypography.labelMedium),
-          const SizedBox(height: AppSpacing.xs),
-        ],
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(widget.length, (i) {
-            return Padding(
-              padding: EdgeInsets.only(
-                right: i < widget.length - 1 ? widget.spacing : 0,
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
+
+    return AppSemantics(
+      label: widget.labelText ?? 'OTP Input',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.labelText != null) ...[
+            Text(
+              widget.labelText!,
+              style: typography.bodyBase.copyWith(
+                fontWeight: AppTypography.medium,
+                color: colors.textEmphasis,
               ),
-              child: _OtpBox(
-                controller: _controllers[i],
-                focusNode: _focusNodes[i],
-                index: i,
-                onChanged: _onChanged,
-                enabled: widget.enabled,
-                boxSize: widget.boxSize,
-                obscure: widget.obscure,
-                borderColor: _borderColor,
-                onKeyBack: () {
-                  if (_controllers[i].text.isEmpty && i > 0) {
-                    _controllers[i - 1].clear();
-                    _focusNodes[i - 1].requestFocus();
-                  }
-                },
-              ),
-            );
-          }),
-        ),
-        if (widget.errorText != null) ...[
-          const SizedBox(height: 4),
-          Text(widget.errorText!,
-              style: AppTypography.caption.copyWith(color: AppColors.error)),
-        ],
-      ],
-    );
-  }
-}
-
-class _OtpBox extends StatelessWidget {
-  const _OtpBox({
-    required this.controller,
-    required this.focusNode,
-    required this.index,
-    required this.onChanged,
-    required this.enabled,
-    required this.boxSize,
-    required this.obscure,
-    required this.borderColor,
-    required this.onKeyBack,
-  });
-
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final int index;
-  final void Function(String, int) onChanged;
-  final bool enabled;
-  final double boxSize;
-  final bool obscure;
-  final Color Function(bool) borderColor;
-  final VoidCallback onKeyBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return KeyboardListener(
-      focusNode: FocusNode(),
-      onKeyEvent: (event) {
-        if (event is KeyDownEvent &&
-            event.logicalKey == LogicalKeyboardKey.backspace) {
-          onKeyBack();
-        }
-      },
-      child: SizedBox(
-        width: boxSize,
-        height: boxSize,
-        child: TextField(
-          controller: controller,
-          focusNode: focusNode,
-          keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
-          maxLength: 1,
-          enabled: enabled,
-          obscureText: obscure,
-          style: AppTypography.headlineMedium,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onChanged: (val) => onChanged(val, index),
-          decoration: InputDecoration(
-            counterText: '',
-            filled: true,
-            fillColor: AppColors.surfaceVariant,
-            border: const OutlineInputBorder(
-              borderRadius: AppRadius.mdAll,
-              borderSide: BorderSide.none,
             ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: AppRadius.mdAll,
-              borderSide: BorderSide(color: borderColor(true), width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: AppRadius.mdAll,
-              borderSide: BorderSide(color: borderColor(false)),
-            ),
+            SizedBox(height: spacing.s1),
+          ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(widget.length, (index) {
+              return SizedBox(
+                width: 40,
+                height: 48,
+                child: TextFormField(
+                  controller: _controllers[index],
+                  focusNode: _focusNodes[index],
+                  enabled: widget.enabled,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  maxLength: 1,
+                  showCursor: false,
+                  style: typography.h5.copyWith(color: colors.textEmphasis),
+                  decoration: InputDecoration(
+                    counterText: '',
+                    fillColor: colors.bodySecondaryBg,
+                    filled: true,
+                    contentPadding: EdgeInsets.zero,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: radii.base,
+                      borderSide: BorderSide(color: colors.borderColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: radii.base,
+                      borderSide: BorderSide(color: colors.primary, width: 2),
+                    ),
+                  ),
+                  onChanged: (value) => _onChanged(value, index),
+                ),
+              );
+            }),
           ),
-        ),
+          if (widget.errorText != null) ...[
+            SizedBox(height: spacing.s1),
+            Text(
+              widget.errorText!,
+              style: typography.bodySm.copyWith(color: colors.danger),
+            ),
+          ],
+        ],
       ),
     );
   }

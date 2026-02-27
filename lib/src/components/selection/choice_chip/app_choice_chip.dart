@@ -1,35 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
+import '../../../../ui_kit.dart';
 
-class AppChoiceChip extends StatelessWidget {
-  const AppChoiceChip({
-    required this.label, required this.selected, required this.onSelected, super.key,
-    this.avatar,
-    this.enabled = true,
-    this.selectedColor,
-  });
-
+/// A premium Choice Chip component.
+class AppChoiceChip extends AppStatelessWrapper {
   final String label;
   final bool selected;
-  final ValueChanged<bool> onSelected;
+  final ValueChanged<bool>? onSelected;
   final Widget? avatar;
   final bool enabled;
-  final Color? selectedColor;
+
+  const AppChoiceChip({
+    super.key,
+    required this.label,
+    required this.selected,
+    this.onSelected,
+    this.avatar,
+    this.enabled = true,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
+
     return ChoiceChip(
-      label: Text(label, style: AppTypography.labelMedium),
+      label: Text(label),
       selected: selected,
       onSelected: enabled ? onSelected : null,
       avatar: avatar,
-      selectedColor:
-          selectedColor ?? Theme.of(context).colorScheme.primaryContainer,
-      labelStyle: AppTypography.labelMedium.copyWith(
-        color: selected
-            ? Theme.of(context).colorScheme.onPrimaryContainer
-            : Theme.of(context).colorScheme.onSurfaceVariant,
+      labelStyle: typography.bodySm.copyWith(
+        fontWeight: selected ? AppTypography.semiBold : AppTypography.medium,
+        color: selected ? Colors.white : colors.bodyColor,
       ),
+      selectedColor: colors.primary,
+      backgroundColor: colors.bodySecondaryBg,
+      disabledColor: colors.bodySecondaryBg.withValues(alpha: 0.5),
+      padding: EdgeInsets.symmetric(
+        horizontal: spacing.s2,
+        vertical: spacing.s1,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: radii.base,
+        side: BorderSide(
+          color: selected ? colors.primary : colors.borderColor,
+          width: 1,
+        ),
+      ),
+      showCheckmark: false,
     );
   }
 }

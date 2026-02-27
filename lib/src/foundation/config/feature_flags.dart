@@ -1,24 +1,14 @@
-/// Runtime feature flags for conditional UI rendering.
-class AppFeatureFlags {
-  const AppFeatureFlags({
-    this.enableDarkMode = true,
-    this.enableAnimations = true,
-    this.enableAnalytics = false,
-    this.enableBetaFeatures = false,
-    this.enableAccessibility = true,
-    this.enableOfflineMode = false,
-    this.enablePushNotifications = false,
-  });
+/// Toggle individual features on or off.
+/// Useful for phasing rollouts or testing experimental components.
+class FeatureFlags {
+  FeatureFlags._();
 
-  final bool enableDarkMode;
-  final bool enableAnimations;
-  final bool enableAnalytics;
-  final bool enableBetaFeatures;
-  final bool enableAccessibility;
-  final bool enableOfflineMode;
-  final bool enablePushNotifications;
+  /// Enables unfinished beta components and layouts
+  static const bool enableBetaFeatures = false;
 
-  static AppFeatureFlags _instance = const AppFeatureFlags();
-  static AppFeatureFlags get instance => _instance;
-  static void configure(AppFeatureFlags flags) => _instance = flags;
+  /// Enables debug mode borders or labels in the UI kit
+  static const bool debugUiKit = false;
+
+  /// Enables custom text scaling factor logic through the UI kit
+  static const bool enableA11yTextScaling = true;
 }

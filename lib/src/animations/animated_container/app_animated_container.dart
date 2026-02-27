@@ -1,43 +1,69 @@
 import 'package:flutter/material.dart';
-import '../../foundation/tokens/durations/app_durations.dart';
 
+/// A wrapper around [AnimatedContainer] with sensible defaults for quick UI transitions.
 class AppAnimatedContainer extends StatelessWidget {
+  /// The widget below this widget in the tree.
+  final Widget? child;
+
+  /// The duration over which to animate the parameters of this container.
+  final Duration duration;
+
+  /// The curve to apply when animating the parameters of this container.
+  final Curve curve;
+
+  /// The decoration to paint behind the [child].
+  final Decoration? decoration;
+
+  /// The width of the container.
+  final double? width;
+
+  /// The height of the container.
+  final double? height;
+
+  /// The padding to apply to the [child].
+  final EdgeInsetsGeometry? padding;
+
+  /// The margin to surround the container.
+  final EdgeInsetsGeometry? margin;
+
+  /// Constraints to apply to the [child].
+  final BoxConstraints? constraints;
+
+  /// The color to paint behind the [child].
+  final Color? color;
+
+  /// Called every time the animation completes.
+  final VoidCallback? onEnd;
+
   const AppAnimatedContainer({
     super.key,
     this.child,
-    this.duration = AppDurations.medium,
+    this.duration = const Duration(milliseconds: 300),
     this.curve = Curves.easeInOut,
+    this.decoration,
     this.width,
     this.height,
-    this.color,
     this.padding,
     this.margin,
-    this.decoration,
-    this.alignment,
+    this.constraints,
+    this.color,
+    this.onEnd,
   });
 
-  final Widget? child;
-  final Duration duration;
-  final Curve curve;
-  final double? width;
-  final double? height;
-  final Color? color;
-  final EdgeInsetsGeometry? padding;
-  final EdgeInsetsGeometry? margin;
-  final Decoration? decoration;
-  final AlignmentGeometry? alignment;
-
   @override
-  Widget build(BuildContext context) => AnimatedContainer(
-        duration: duration,
-        curve: curve,
-        width: width,
-        height: height,
-        color: decoration == null ? color : null,
-        padding: padding,
-        margin: margin,
-        decoration: decoration,
-        alignment: alignment,
-        child: child,
-      );
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: duration,
+      curve: curve,
+      decoration: decoration,
+      width: width,
+      height: height,
+      padding: padding,
+      margin: margin,
+      constraints: constraints,
+      color: color,
+      onEnd: onEnd,
+      child: child,
+    );
+  }
 }

@@ -1,54 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
+import '../../../../ui_kit.dart';
 
-class AppToggleButton extends StatelessWidget {
-  const AppToggleButton({
-    required this.options,
-    required this.selectedIndex,
-    required this.onChanged,
-    super.key,
-    this.height = 40,
-    this.activeColor,
-    this.inactiveColor,
-  });
-
+/// A premium Toggle Button component.
+class AppToggleButton extends AppStatelessWrapper {
   final List<String> options;
   final int selectedIndex;
   final ValueChanged<int> onChanged;
-  final double height;
-  final Color? activeColor;
-  final Color? inactiveColor;
+  final AppButtonColor activeColor;
+  final AppButtonSize size;
+
+  const AppToggleButton({
+    super.key,
+    required this.options,
+    required this.selectedIndex,
+    required this.onChanged,
+    this.activeColor = AppButtonColor.primary,
+    this.size = AppButtonSize.md,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final active = activeColor ?? AppColors.primary;
-    final inactive = inactiveColor ?? AppColors.grey100;
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
+
+    final activeBg = _getThemeColor(colors);
 
     return Container(
-      height: height,
+      padding: EdgeInsets.all(spacing.s1),
       decoration: BoxDecoration(
-        color: inactive,
-        borderRadius: AppRadius.smAll,
+        color: colors.bodySecondaryBg,
+        borderRadius: radii.base,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: List.generate(options.length, (i) {
-          final isSelected = i == selectedIndex;
+        children: List.generate(options.length, (index) {
+          final isSelected = index == selectedIndex;
           return GestureDetector(
-            onTap: () => onChanged(i),
-            child: AnimatedContainer(
+            onTap: () => onChanged(index),
+            child: AppAnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              padding: EdgeInsets.symmetric(
+                horizontal: spacing.s3,
+                vertical: spacing.s2,
+              ),
               decoration: BoxDecoration(
-                color: isSelected ? active : Colors.transparent,
-                borderRadius: AppRadius.smAll,
+                color: isSelected ? activeBg : Colors.transparent,
+                borderRadius: radii.base,
+                boxShadow: isSelected ? [AppShadows.sm] : null,
               ),
               child: Text(
-                options[i],
-                style: AppTypography.labelMedium.copyWith(
-                  color: isSelected ? AppColors.white : AppColors.textSecondary,
+                options[index],
+                style: typography.bodySm.copyWith(
+                  fontWeight: isSelected
+                      ? AppTypography.semiBold
+                      : AppTypography.regular,
+                  color: isSelected ? Colors.white : colors.bodySecondaryColor,
                 ),
               ),
             ),
@@ -56,5 +64,26 @@ class AppToggleButton extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  Color _getThemeColor(AppColorsExtension colors) {
+    switch (activeColor) {
+      case AppButtonColor.primary:
+        return colors.primary;
+      case AppButtonColor.secondary:
+        return colors.secondary;
+      case AppButtonColor.success:
+        return colors.success;
+      case AppButtonColor.warning:
+        return colors.warning;
+      case AppButtonColor.danger:
+        return colors.danger;
+      case AppButtonColor.info:
+        return colors.info;
+      case AppButtonColor.light:
+        return colors.light;
+      case AppButtonColor.dark:
+        return colors.dark;
+    }
   }
 }

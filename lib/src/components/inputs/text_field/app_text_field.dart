@@ -1,111 +1,168 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
+import '../../../../ui_kit.dart';
 
-class AppTextField extends StatelessWidget {
+/// A premium text input field following the UI Kit design system.
+/// Supports labels, hints, icons, validation states, and standard TextFormField features.
+class AppTextField extends AppStatelessWrapper {
+  final TextEditingController? controller;
+  final String? labelText;
+  final String? hintText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final bool obscureText;
+  final TextInputType keyboardType;
+  final String? errorText;
+  final String? successText;
+  final ValueChanged<String>? onChanged;
+  final VoidCallback? onTap;
+  final FormFieldValidator<String>? validator;
+  final AutovalidateMode? autovalidateMode;
+  final bool readOnly;
+  final bool enabled;
+  final int? maxLines;
+  final int? minLines;
+  final bool isValid;
+  final bool isInvalid;
+
   const AppTextField({
     super.key,
     this.controller,
-    this.label,
-    this.hint,
-    this.helperText,
-    this.errorText,
+    this.labelText,
+    this.hintText,
     this.prefixIcon,
     this.suffixIcon,
-    this.suffix,
-    this.prefix,
+    this.obscureText = false,
+    this.keyboardType = TextInputType.text,
+    this.errorText,
+    this.successText,
     this.onChanged,
-    this.onSubmitted,
     this.onTap,
-    this.keyboardType,
-    this.textInputAction,
-    this.inputFormatters,
-    this.focusNode,
-    this.maxLength,
+    this.validator,
+    this.autovalidateMode,
+    this.readOnly = false,
+    this.enabled = true,
     this.maxLines = 1,
     this.minLines,
-    this.enabled = true,
-    this.readOnly = false,
-    this.obscureText = false,
-    this.autofocus = false,
-    this.showCounter = false,
-    this.filled = true,
-    this.fillColor,
-    this.validator,
-    this.initialValue,
-    this.textCapitalization = TextCapitalization.none,
-    this.autocorrect = true,
+    this.isValid = false,
+    this.isInvalid = false,
   });
 
-  final TextEditingController? controller;
-  final String? label;
-  final String? hint;
-  final String? helperText;
-  final String? errorText;
-  final IconData? prefixIcon;
-  final IconData? suffixIcon;
-  final Widget? suffix;
-  final Widget? prefix;
-  final ValueChanged<String>? onChanged;
-  final ValueChanged<String>? onSubmitted;
-  final VoidCallback? onTap;
-  final TextInputType? keyboardType;
-  final TextInputAction? textInputAction;
-  final List<TextInputFormatter>? inputFormatters;
-  final FocusNode? focusNode;
-  final int? maxLength;
-  final int? maxLines;
-  final int? minLines;
-  final bool enabled;
-  final bool readOnly;
-  final bool obscureText;
-  final bool autofocus;
-  final bool showCounter;
-  final bool filled;
-  final Color? fillColor;
-  final String? Function(String?)? validator;
-  final String? initialValue;
-  final TextCapitalization textCapitalization;
-  final bool autocorrect;
-
   @override
-  Widget build(BuildContext context) {
-    return TextFormField(
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
+
+    final baseBorder = OutlineInputBorder(
+      borderRadius: radii.base,
+      borderSide: BorderSide(color: colors.borderColor, width: 1),
+    );
+
+    final focusedBorder = OutlineInputBorder(
+      borderRadius: radii.base,
+      borderSide: BorderSide(color: colors.primary, width: 1.5),
+    );
+
+    final errorBorder = OutlineInputBorder(
+      borderRadius: radii.base,
+      borderSide: BorderSide(color: colors.danger, width: 1.5),
+    );
+
+    final successBorder = OutlineInputBorder(
+      borderRadius: radii.base,
+      borderSide: BorderSide(color: colors.success, width: 1.5),
+    );
+
+    // Determine current border based on state
+    var currentBorder = baseBorder;
+    if (isInvalid || errorText != null) {
+      currentBorder = errorBorder;
+    } else if (isValid || successText != null) {
+      currentBorder = successBorder;
+    }
+
+    Widget inputField = TextFormField(
       controller: controller,
-      initialValue: controller == null ? initialValue : null,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        helperText: helperText,
-        errorText: errorText,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        suffixIcon: suffixIcon != null ? Icon(suffixIcon) : suffix,
-        prefix: prefix,
-        filled: filled,
-        fillColor: enabled
-            ? (fillColor ?? AppColors.surfaceVariant)
-            : AppColors.grey100,
-        counterText: showCounter ? null : '',
-      ),
-      style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+      obscureText: obscureText,
       keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      inputFormatters: inputFormatters,
-      maxLength: maxLength,
       maxLines: maxLines,
       minLines: minLines,
-      enabled: enabled,
-      readOnly: readOnly,
-      obscureText: obscureText,
-      autofocus: autofocus,
-      focusNode: focusNode,
       onChanged: onChanged,
-      onFieldSubmitted: onSubmitted,
       onTap: onTap,
+      readOnly: readOnly,
+      enabled: enabled,
       validator: validator,
-      textCapitalization: textCapitalization,
-      autocorrect: autocorrect,
+      autovalidateMode: autovalidateMode,
+      style: typography.bodyBase.copyWith(
+        color: enabled
+            ? colors.textEmphasis
+            : colors.textEmphasis.withValues(alpha: 0.5),
+      ),
+      cursorColor: colors.primary,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: typography.bodyBase.copyWith(
+          color: colors.bodySecondaryColor,
+        ),
+        fillColor: colors.bodySecondaryBg,
+        filled: true,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: spacing.s3,
+          vertical: spacing.s2,
+        ),
+        prefixIcon: prefixIcon != null
+            ? IconTheme(
+                data: IconThemeData(color: colors.bodySecondaryColor, size: 20),
+                child: prefixIcon!,
+              )
+            : null,
+        suffixIcon: suffixIcon != null
+            ? IconTheme(
+                data: IconThemeData(color: colors.bodySecondaryColor, size: 20),
+                child: suffixIcon!,
+              )
+            : null,
+        border: currentBorder,
+        enabledBorder: currentBorder,
+        focusedBorder: focusedBorder,
+        errorBorder: errorBorder,
+        focusedErrorBorder: errorBorder,
+        errorText: (isInvalid || errorText != null) ? errorText : null,
+        errorStyle: typography.bodySm.copyWith(color: colors.danger),
+      ),
+    );
+
+    return AppSemantics(
+      label: labelText ?? hintText ?? 'Text Input',
+      textField: true,
+      enabled: enabled,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (labelText != null) ...[
+            Text(
+              labelText!,
+              style: typography.bodyBase.copyWith(
+                fontWeight: AppTypography.medium,
+                color: colors.textEmphasis,
+              ),
+            ),
+            SizedBox(height: spacing.s1),
+          ],
+          inputField,
+          if (successText != null &&
+              (isValid || successText != null) &&
+              errorText == null) ...[
+            SizedBox(height: spacing.s1),
+            Text(
+              successText!,
+              style: typography.bodySm.copyWith(color: colors.success),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

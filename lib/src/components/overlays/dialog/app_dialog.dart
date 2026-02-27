@@ -1,128 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
+import '../../../../ui_kit.dart';
 
-class AppDialog extends StatelessWidget {
-  const AppDialog({
-    super.key,
-    this.title,
-    this.content,
-    this.actions,
-    this.icon,
-    this.iconColor,
-    this.scrollable = false,
-    this.width,
-  });
-
-  final String? title;
-  final Widget? content;
-  final List<Widget>? actions;
-  final IconData? icon;
-  final Color? iconColor;
-  final bool scrollable;
-  final double? width;
-
+class AppDialog {
   static Future<T?> show<T>({
     required BuildContext context,
-    String? title,
-    Widget? content,
+    required String title,
+    required Widget content,
     List<Widget>? actions,
-    IconData? icon,
-    Color? iconColor,
-    bool barrierDismissible = true,
-    bool scrollable = false,
+    bool dismissible = true,
   }) {
-    return showDialog<T>(
-      context: context,
-      barrierDismissible: barrierDismissible,
-      builder: (_) => AppDialog(
-        title: title,
-        content: content,
-        actions: actions,
-        icon: icon,
-        iconColor: iconColor,
-        scrollable: scrollable,
+    return AppModal.show<T>(
+      context,
+      title: title,
+      content: AppModalBody(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+        child: content,
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      icon: icon != null ? Icon(icon, color: iconColor, size: 32) : null,
-      title: title != null
-          ? Text(title!,
-              style: AppTypography.headlineMedium, textAlign: TextAlign.center)
+      dismissible: dismissible,
+      size: AppModalSize.sm,
+      footer: actions != null
+          ? AppModalFooter(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              children: actions,
+            )
           : null,
-      content: content,
-      actions: actions,
-      scrollable: scrollable,
     );
   }
-}
 
-/// Pre-built confirmation dialog.
-class AppConfirmationDialog extends StatelessWidget {
-  const AppConfirmationDialog({
-    required this.title, super.key,
-    this.message,
-    this.confirmLabel = 'Confirm',
-    this.cancelLabel = 'Cancel',
-    this.isDestructive = false,
-    this.icon,
-  });
-
-  final String title;
-  final String? message;
-  final String confirmLabel;
-  final String cancelLabel;
-  final bool isDestructive;
-  final IconData? icon;
-
-  static Future<bool?> show({
+  static Future<T?> showAlert<T>({
     required BuildContext context,
     required String title,
-    String? message,
-    String confirmLabel = 'Confirm',
-    String cancelLabel = 'Cancel',
-    bool isDestructive = false,
-    IconData? icon,
+    required String message,
+    String confirmLabel = 'OK',
   }) {
-    return showDialog<bool>(
+    return show<T>(
       context: context,
-      builder: (_) => AppConfirmationDialog(
-        title: title,
-        message: message,
-        confirmLabel: confirmLabel,
-        cancelLabel: cancelLabel,
-        isDestructive: isDestructive,
-        icon: icon,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return AppDialog(
-      icon: icon,
-      iconColor: isDestructive ? cs.error : cs.primary,
       title: title,
-      content: message != null
-          ? Text(message!,
-              style: AppTypography.bodyMedium, textAlign: TextAlign.center)
-          : null,
+      content: Text(message),
       actions: [
-        OutlinedButton(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: Text(cancelLabel),
-        ),
-        const SizedBox(width: 8),
-        FilledButton(
-          style: isDestructive
-              ? FilledButton.styleFrom(backgroundColor: cs.error)
-              : null,
-          onPressed: () => Navigator.of(context).pop(true),
-          child: Text(confirmLabel),
+        AppButton(
+          label: confirmLabel,
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ],
     );

@@ -1,81 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
+import '../../../../ui_kit.dart';
 
-class AppBottomSheet extends StatelessWidget {
-  const AppBottomSheet({
-    required this.child, super.key,
-    this.title,
-    this.actions,
-    this.padding,
-    this.showDragHandle = true,
-    this.maxChildSize = 0.9,
-  });
-
+class AppBottomSheet extends AppStatelessWrapper {
   final Widget child;
-  final String? title;
-  final List<Widget>? actions;
-  final EdgeInsetsGeometry? padding;
-  final bool showDragHandle;
-  final double maxChildSize;
+  final bool showHandle;
+  final EdgeInsets padding;
+  final Color? backgroundColor;
+
+  const AppBottomSheet({
+    super.key,
+    required this.child,
+    this.showHandle = true,
+    this.padding = const EdgeInsets.all(AppSpacing.s4),
+    this.backgroundColor,
+  });
 
   static Future<T?> show<T>({
     required BuildContext context,
     required Widget child,
-    String? title,
-    List<Widget>? actions,
+    bool showHandle = true,
     bool isDismissible = true,
-    bool showDragHandle = true,
-    bool isScrollControlled = true,
-    double maxChildSize = 0.9,
-    EdgeInsetsGeometry? padding,
+    bool enableDrag = true,
+    bool useRootNavigator = false,
+    EdgeInsets padding = const EdgeInsets.all(AppSpacing.s4),
+    Color? backgroundColor,
   }) {
+    final theme = context.theme.extension<AppColorsExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
+
     return showModalBottomSheet<T>(
       context: context,
       isDismissible: isDismissible,
-      isScrollControlled: isScrollControlled,
-      showDragHandle: showDragHandle,
-      useSafeArea: true,
-      builder: (_) => AppBottomSheet(
-        title: title,
-        actions: actions,
+      enableDrag: enableDrag,
+      useRootNavigator: useRootNavigator,
+      backgroundColor: backgroundColor ?? theme.bodyBg,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: radii.base.topLeft,
+          topRight: radii.base.topRight,
+        ),
+      ),
+      builder: (context) => AppBottomSheet(
+        showHandle: showHandle,
         padding: padding,
-        showDragHandle: showDragHandle,
-        maxChildSize: maxChildSize,
+        backgroundColor: backgroundColor,
         child: child,
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.5,
-      minChildSize: 0.25,
-      maxChildSize: maxChildSize,
-      expand: false,
-      builder: (_, ctrl) => Column(
+  Widget buildWidget(BuildContext context) {
+    final theme = context.theme.extension<AppColorsExtension>()!;
+
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (title != null)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.base, AppSpacing.sm, AppSpacing.base, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(title!, style: AppTypography.headlineSmall),
-                  ),
-                  if (actions != null) ...actions!,
-                ],
+          if (showHandle)
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(
+                  top: AppSpacing.s2,
+                  bottom: AppSpacing.s2,
+                ),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: theme.bodySecondaryColor.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
             ),
-          Expanded(
-            child: SingleChildScrollView(
-              controller: ctrl,
-              padding: padding ?? const EdgeInsets.all(AppSpacing.base),
-              child: child,
-            ),
-          ),
+          Padding(padding: padding, child: child),
         ],
       ),
     );

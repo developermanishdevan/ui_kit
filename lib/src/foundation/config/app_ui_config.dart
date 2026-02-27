@@ -1,38 +1,16 @@
-/// App-level UI configuration.
+/// A central configuration object to define global behavior for the UI Kit.
 class AppUiConfig {
-  const AppUiConfig({
-    this.defaultAnimationEnabled = true,
-    this.defaultBorderRadius = 8.0,
-    this.defaultElevation = 2.0,
-    this.useMaterial3 = true,
-    this.compactMode = false,
-  });
+  AppUiConfig._();
 
-  final bool defaultAnimationEnabled;
-  final double defaultBorderRadius;
-  final double defaultElevation;
-  final bool useMaterial3;
-  final bool compactMode;
+  /// Whether to use Material 3 design elements.
+  static const bool useMaterial3 = true;
 
-  static AppUiConfig _instance = const AppUiConfig();
-  static AppUiConfig get instance => _instance;
+  /// Whether to animate interactions by default.
+  static const bool enableAnimations = true;
 
-  static void configure(AppUiConfig config) => _instance = config;
+  /// Global switch to show or hide ripple effects on interactive widgets.
+  static const bool showRippleEffects = true;
 
-  AppUiConfig copyWith({
-    bool? defaultAnimationEnabled,
-    double? defaultBorderRadius,
-    double? defaultElevation,
-    bool? useMaterial3,
-    bool? compactMode,
-  }) {
-    return AppUiConfig(
-      defaultAnimationEnabled:
-          defaultAnimationEnabled ?? this.defaultAnimationEnabled,
-      defaultBorderRadius: defaultBorderRadius ?? this.defaultBorderRadius,
-      defaultElevation: defaultElevation ?? this.defaultElevation,
-      useMaterial3: useMaterial3 ?? this.useMaterial3,
-      compactMode: compactMode ?? this.compactMode,
-    );
-  }
+  /// Minimum target size for all interactive elements to meet accessibility standards.
+  static const double minTouchTargetSize = 48.0;
 }

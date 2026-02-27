@@ -1,146 +1,134 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
+import '../../../../ui_kit.dart';
 
-class AppEmptyState extends StatelessWidget {
+enum AppEmptyStateVariant {
+  empty,
+  error,
+  noInternet,
+  maintenance,
+  permission,
+  success,
+}
+
+/// A premium Empty State component for various feedback scenarios.
+class AppEmptyState extends AppStatelessWrapper {
+  final AppEmptyStateVariant variant;
+  final String? title;
+  final String? description;
+  final String? actionLabel;
+  final VoidCallback? onAction;
+  final Widget? customIcon;
+  final double iconSize;
+
   const AppEmptyState({
     super.key,
-    this.icon = Icons.inbox_outlined,
-    this.title = 'Nothing here',
-    this.message,
-    this.action,
+    this.variant = AppEmptyStateVariant.empty,
+    this.title,
+    this.description,
+    this.actionLabel,
     this.onAction,
-    this.iconSize = 64.0,
-    this.iconColor,
+    this.customIcon,
+    this.iconSize = 80,
   });
 
-  final IconData icon;
-  final String title;
-  final String? message;
-  final String? action;
-  final VoidCallback? onAction;
-  final double iconSize;
-  final Color? iconColor;
+  IconData _getIcon() {
+    switch (variant) {
+      case AppEmptyStateVariant.empty:
+        return Icons.inbox_outlined;
+      case AppEmptyStateVariant.error:
+        return Icons.error_outline;
+      case AppEmptyStateVariant.noInternet:
+        return Icons.wifi_off_outlined;
+      case AppEmptyStateVariant.maintenance:
+        return Icons.construction_outlined;
+      case AppEmptyStateVariant.permission:
+        return Icons.lock_outline;
+      case AppEmptyStateVariant.success:
+        return Icons.check_circle_outline;
+    }
+  }
+
+  String _getDefaultTitle() {
+    switch (variant) {
+      case AppEmptyStateVariant.empty:
+        return 'No Data Found';
+      case AppEmptyStateVariant.error:
+        return 'Something went wrong';
+      case AppEmptyStateVariant.noInternet:
+        return 'No Internet Connection';
+      case AppEmptyStateVariant.maintenance:
+        return 'Under Maintenance';
+      case AppEmptyStateVariant.permission:
+        return 'Access Denied';
+      case AppEmptyStateVariant.success:
+        return 'Operation Successful';
+    }
+  }
+
+  String _getDefaultDescription() {
+    switch (variant) {
+      case AppEmptyStateVariant.empty:
+        return 'We couldn\'t find any records here.';
+      case AppEmptyStateVariant.error:
+        return 'An unexpected error occurred. Please try again later.';
+      case AppEmptyStateVariant.noInternet:
+        return 'Please check your connection and try again.';
+      case AppEmptyStateVariant.maintenance:
+        return 'We are currently updating our systems. Please check back soon.';
+      case AppEmptyStateVariant.permission:
+        return 'You don\'t have permission to view this content.';
+      case AppEmptyStateVariant.success:
+        return 'Your action has been completed successfully.';
+    }
+  }
 
   @override
-  Widget build(BuildContext context) => _StateWidget(
-        icon: icon,
-        title: title,
-        message: message,
-        action: action,
-        onAction: onAction,
-        iconSize: iconSize,
-        iconColor: iconColor ?? AppColors.grey300,
-      );
-}
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
 
-class AppErrorState extends StatelessWidget {
-  const AppErrorState({
-    super.key,
-    this.title = 'Something went wrong',
-    this.message,
-    this.onRetry,
-  });
-  final String title;
-  final String? message;
-  final VoidCallback? onRetry;
-
-  @override
-  Widget build(BuildContext context) => _StateWidget(
-        icon: Icons.error_outline,
-        title: title,
-        message: message,
-        action: onRetry != null ? 'Try Again' : null,
-        onAction: onRetry,
-        iconColor: AppColors.error,
-      );
-}
-
-class AppSuccessState extends StatelessWidget {
-  const AppSuccessState({
-    super.key,
-    this.title = 'All done!',
-    this.message,
-    this.action,
-    this.onAction,
-  });
-  final String title;
-  final String? message;
-  final String? action;
-  final VoidCallback? onAction;
-
-  @override
-  Widget build(BuildContext context) => _StateWidget(
-        icon: Icons.check_circle_outline,
-        title: title,
-        message: message,
-        action: action,
-        onAction: onAction,
-        iconColor: AppColors.success,
-      );
-}
-
-class AppNoInternetState extends StatelessWidget {
-  const AppNoInternetState({super.key, this.onRetry});
-  final VoidCallback? onRetry;
-
-  @override
-  Widget build(BuildContext context) => _StateWidget(
-        icon: Icons.wifi_off,
-        title: 'No internet connection',
-        message: 'Please check your network and try again.',
-        action: onRetry != null ? 'Retry' : null,
-        onAction: onRetry,
-        iconColor: AppColors.grey400,
-      );
-}
-
-class _StateWidget extends StatelessWidget {
-  const _StateWidget({
-    required this.icon,
-    required this.title,
-    this.message,
-    this.action,
-    this.onAction,
-    this.iconSize = 64.0,
-    this.iconColor,
-  });
-
-  final IconData icon;
-  final String title;
-  final String? message;
-  final String? action;
-  final VoidCallback? onAction;
-  final double iconSize;
-  final Color? iconColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xl2),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: iconSize, color: iconColor ?? AppColors.grey300),
-            const SizedBox(height: AppSpacing.base),
-            Text(title,
-                style: AppTypography.headlineSmall,
-                textAlign: TextAlign.center),
-            if (message != null) ...[
-              const SizedBox(height: AppSpacing.sm),
-              Text(message!,
-                  style: AppTypography.bodyMedium.copyWith(
-                    color: AppColors.textSecondary,
+    return AppSemantics(
+      label: 'Empty state: ${title ?? _getDefaultTitle()}',
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(spacing.s4),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              customIcon ??
+                  Icon(
+                    _getIcon(),
+                    size: iconSize,
+                    color: colors.primary.withValues(alpha: 0.5),
                   ),
-                  textAlign: TextAlign.center),
+              SizedBox(height: spacing.s4),
+              Text(
+                title ?? _getDefaultTitle(),
+                style: typography.h4.copyWith(
+                  color: colors.textEmphasis,
+                  fontWeight: AppTypography.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: spacing.s2),
+              Text(
+                description ?? _getDefaultDescription(),
+                style: typography.bodyBase.copyWith(
+                  color: colors.bodySecondaryColor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              if (actionLabel != null && onAction != null) ...[
+                SizedBox(height: spacing.s5),
+                AppButton(
+                  label: actionLabel!,
+                  onPressed: onAction,
+                  color: AppButtonColor.primary,
+                ),
+              ],
             ],
-            if (action != null && onAction != null) ...[
-              const SizedBox(height: AppSpacing.xl),
-              FilledButton(onPressed: onAction, child: Text(action!)),
-            ],
-          ],
+          ),
         ),
       ),
     );

@@ -1,56 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import '../base/app_base_button.dart';
-import '../base/app_button_size.dart';
+import '../../../../ui_kit.dart';
 
-class AppSecondaryButton extends AppBaseButton {
+/// A premium Secondary Button component.
+class AppSecondaryButton extends AppStatelessWrapper {
+  final VoidCallback? onPressed;
+  final String label;
+  final Widget? icon;
+  final Widget? suffixIcon;
+  final AppButtonSize size;
+  final bool isLoading;
+  final bool isFullWidth;
+  final bool isRoundedPill;
+  final bool isSoft;
+  final BorderRadius? borderRadius;
+
   const AppSecondaryButton({
-    required super.onPressed,
     super.key,
-    super.label,
-    super.icon,
-    super.trailingIcon,
-    super.isLoading,
-    super.isDisabled,
-    super.size = AppButtonSize.medium,
-    super.width,
+    required this.label,
+    this.onPressed,
+    this.icon,
+    this.suffixIcon,
+    this.size = AppButtonSize.md,
+    this.isLoading = false,
+    this.isFullWidth = false,
+    this.isRoundedPill = false,
+    this.isSoft = true, // Secondary defaults to soft often
+    this.borderRadius,
   });
 
   @override
-  State<AppSecondaryButton> createState() => _State();
-}
-
-class _State extends AppBaseButtonState<AppSecondaryButton> {
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final bg = cs.secondaryContainer;
-    final fg = cs.onSecondaryContainer;
-    const br = AppRadius.mdAll;
-
-    final button = Material(
-      color: widget.isInteractive ? bg : bg.withValues(alpha: 0.48),
-      borderRadius: br,
-      child: InkWell(
-        borderRadius: br,
-        onTap: widget.isInteractive ? widget.onPressed : null,
-        child: Container(
-          height: widget.size.height,
-          width: widget.size == AppButtonSize.block
-              ? double.infinity
-              : widget.width,
-          padding:
-              EdgeInsets.symmetric(horizontal: widget.size.horizontalPadding),
-          alignment: Alignment.center,
-          child: buildButtonContent(
-            foregroundColor: fg,
-            labelStyle: AppTypography.labelLarge
-                .copyWith(fontSize: widget.size.fontSize),
-          ),
-        ),
-      ),
+  Widget buildWidget(BuildContext context) {
+    return AppButton(
+      label: label,
+      onPressed: onPressed,
+      icon: icon,
+      suffixIcon: suffixIcon,
+      color: AppButtonColor.secondary,
+      variant: isSoft ? AppButtonVariant.soft : AppButtonVariant.solid,
+      size: size,
+      isLoading: isLoading,
+      isFullWidth: isFullWidth,
+      isRoundedPill: isRoundedPill,
+      borderRadius: borderRadius,
     );
-    return buildWrapper(child: button);
   }
 }

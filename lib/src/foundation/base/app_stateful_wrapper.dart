@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'app_base_widget.dart';
 
-/// Abstract base for all stateful UI Kit widgets.
-abstract class AppStatefulWidget extends StatefulWidget {
-  const AppStatefulWidget({super.key});
+/// A wrapper around [StatefulWidget] to integrate consistently with the UI Kit.
+abstract class AppStatefulWrapper extends StatefulWidget {
+  const AppStatefulWrapper({super.key});
 }
 
-abstract class AppState<T extends AppStatefulWidget> extends State<T> {
-  ThemeData get theme => Theme.of(context);
-  ColorScheme get colors => Theme.of(context).colorScheme;
-  TextTheme get textTheme => Theme.of(context).textTheme;
-  bool get isDark => Theme.of(context).brightness == Brightness.dark;
-  Size get screenSize => MediaQuery.sizeOf(context);
-  EdgeInsets get screenPadding => MediaQuery.paddingOf(context);
+/// A wrapper around [State] providing base UI kit mixins out of the box.
+abstract class AppStatefulWrapperState<T extends AppStatefulWrapper>
+    extends State<T>
+    with AppBaseWidgetMixin {
+  @override
+  Widget build(BuildContext context) {
+    return buildWidget(context);
+  }
+
+  /// Builds the widget tree taking advantage of the wrapper.
+  Widget buildWidget(BuildContext context);
 }

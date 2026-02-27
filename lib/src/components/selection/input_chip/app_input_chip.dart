@@ -1,36 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
+import '../../../../ui_kit.dart';
 
-class AppInputChip extends StatelessWidget {
-  const AppInputChip({
-    required this.label, super.key,
-    this.onDeleted,
-    this.onPressed,
-    this.avatar,
-    this.enabled = true,
-  });
-
+/// A premium Input Chip component.
+class AppInputChip extends AppStatelessWrapper {
   final String label;
   final VoidCallback? onDeleted;
   final VoidCallback? onPressed;
   final Widget? avatar;
   final bool enabled;
 
+  const AppInputChip({
+    super.key,
+    required this.label,
+    this.onDeleted,
+    this.onPressed,
+    this.avatar,
+    this.enabled = true,
+  });
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
+
     return InputChip(
       label: Text(label),
-      onDeleted: enabled ? onDeleted : null,
       onPressed: enabled ? onPressed : null,
+      onDeleted: enabled ? onDeleted : null,
       avatar: avatar,
-      labelStyle: AppTypography.labelMedium,
-      backgroundColor: AppColors.surfaceVariant,
-      deleteIconColor: AppColors.textSecondary,
-      shape: const RoundedRectangleBorder(
-        borderRadius: AppRadius.smAll,
-        side: BorderSide(color: AppColors.borderDefault),
+      labelStyle: typography.bodySm.copyWith(
+        fontWeight: AppTypography.medium,
+        color: colors.bodyColor,
+      ),
+      backgroundColor: colors.bodySecondaryBg,
+      deleteIconColor: colors.bodySecondaryColor,
+      padding: EdgeInsets.symmetric(
+        horizontal: spacing.s2,
+        vertical: spacing.s1,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: radii.base,
+        side: BorderSide(color: colors.borderColor, width: 1),
       ),
     );
   }

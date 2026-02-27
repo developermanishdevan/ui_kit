@@ -1,83 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import 'package:ui_kit/src/foundation/tokens/icon_sizes/app_icon_sizes.dart';
+import '../../../../ui_kit.dart';
 
-enum AppIconButtonVariant { standard, filled, tonal, outlined }
+/// A premium Icon Button component.
+/// Displays an icon in a square or circular container.
+class AppIconButton extends AppStatelessWrapper {
+  final VoidCallback? onPressed;
+  final Widget icon;
+  final AppButtonSize size;
+  final AppButtonColor color;
+  final AppButtonVariant variant;
+  final bool isLoading;
+  final bool isRounded;
+  final BorderRadius? borderRadius;
 
-class AppIconButton extends StatelessWidget {
   const AppIconButton({
-    required this.icon,
-    required this.onPressed,
     super.key,
-    this.variant = AppIconButtonVariant.standard,
-    this.size = AppIconSizes.lg,
-    this.color,
-    this.backgroundColor,
-    this.borderColor,
-    this.tooltip,
-    this.isDisabled = false,
+    required this.icon,
+    this.onPressed,
+    this.size = AppButtonSize.md,
+    this.color = AppButtonColor.primary,
+    this.variant = AppButtonVariant.solid,
+    this.isLoading = false,
+    this.isRounded = false,
+    this.borderRadius,
   });
 
-  final IconData icon;
-  final VoidCallback? onPressed;
-  final AppIconButtonVariant variant;
-  final double size;
-  final Color? color;
-  final Color? backgroundColor;
-  final Color? borderColor;
-  final String? tooltip;
-  final bool isDisabled;
-
   @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final effectiveOnPressed = isDisabled ? null : onPressed;
-
-    final iconWidget = Icon(
-      icon,
+  Widget buildWidget(BuildContext context) {
+    // For Icon only buttons, we override the label with an empty string
+    // and let the AppButton handle the icon rendering.
+    return AppButton(
+      label: '', // Empty label for icon-only
+      onPressed: onPressed,
+      icon: icon,
+      color: color,
+      variant: variant,
       size: size,
-      color: color ??
-          switch (variant) {
-            AppIconButtonVariant.filled => AppColors.white,
-            AppIconButtonVariant.tonal => cs.onSecondaryContainer,
-            _ => cs.onSurface,
-          },
+      isLoading: isLoading,
+      isRoundedPill: isRounded, // Icon buttons usually use pill for circle
+      borderRadius: borderRadius,
     );
-
-    final decoration = switch (variant) {
-      AppIconButtonVariant.filled => BoxDecoration(
-          color: backgroundColor ?? cs.primary,
-          borderRadius: AppRadius.mdAll,
-        ),
-      AppIconButtonVariant.tonal => BoxDecoration(
-          color: backgroundColor ?? cs.secondaryContainer,
-          borderRadius: AppRadius.mdAll,
-        ),
-      AppIconButtonVariant.outlined => BoxDecoration(
-          border: Border.all(color: borderColor ?? cs.outline),
-          borderRadius: AppRadius.mdAll,
-        ),
-      AppIconButtonVariant.standard => null,
-    };
-
-    final btn = Opacity(
-      opacity: isDisabled ? 0.48 : 1.0,
-      child: Container(
-        decoration: decoration,
-        child: IconButton(
-          icon: iconWidget,
-          onPressed: effectiveOnPressed,
-          tooltip: tooltip,
-          padding: EdgeInsets.all(size * 0.3),
-          constraints: BoxConstraints(
-            minWidth: size + (size * 0.6),
-            minHeight: size + (size * 0.6),
-          ),
-        ),
-      ),
-    );
-
-    return btn;
   }
 }

@@ -1,71 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
+import '../../../../ui_kit.dart';
 
-enum AppFabSize { mini, standard, large, extended }
+/// A premium Floating Action Button component.
+class AppFloatingButton extends AppStatelessWrapper {
+  final VoidCallback? onPressed;
+  final Widget icon;
+  final String? label;
+  final AppButtonColor color;
+  final AppButtonSize size;
+  final bool isLoading;
 
-class AppFloatingButton extends StatelessWidget {
   const AppFloatingButton({
-    required this.icon,
-    required this.onPressed,
     super.key,
+    required this.icon,
+    this.onPressed,
     this.label,
-    this.size = AppFabSize.standard,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.tooltip,
-    this.heroTag,
+    this.color = AppButtonColor.primary,
+    this.size = AppButtonSize.lg,
+    this.isLoading = false,
   });
 
-  final IconData icon;
-  final VoidCallback? onPressed;
-  final String? label;
-  final AppFabSize size;
-  final Color? backgroundColor;
-  final Color? foregroundColor;
-  final String? tooltip;
-  final Object? heroTag;
-
   @override
-  Widget build(BuildContext context) {
-    final bg = backgroundColor ?? AppColors.primary;
-    final fg = foregroundColor ?? AppColors.white;
-
-    if (label != null || size == AppFabSize.extended) {
-      return FloatingActionButton.extended(
-        onPressed: onPressed,
-        icon: Icon(icon, color: fg),
-        label: Text(label ?? '', style: TextStyle(color: fg)),
-        backgroundColor: bg,
-        tooltip: tooltip,
-        heroTag: heroTag,
-      );
-    }
-
-    return switch (size) {
-      AppFabSize.mini => FloatingActionButton.small(
-          onPressed: onPressed,
-          backgroundColor: bg,
-          foregroundColor: fg,
-          tooltip: tooltip,
-          heroTag: heroTag,
-          child: Icon(icon),
-        ),
-      AppFabSize.large => FloatingActionButton.large(
-          onPressed: onPressed,
-          backgroundColor: bg,
-          foregroundColor: fg,
-          tooltip: tooltip,
-          heroTag: heroTag,
-          child: Icon(icon),
-        ),
-      _ => FloatingActionButton(
-          onPressed: onPressed,
-          backgroundColor: bg,
-          foregroundColor: fg,
-          tooltip: tooltip,
-          heroTag: heroTag,
-          child: Icon(icon),
-        ),
-    };
+  Widget buildWidget(BuildContext context) {
+    return AppButton(
+      label: label ?? '',
+      onPressed: onPressed,
+      icon: icon,
+      color: color,
+      variant: AppButtonVariant.solid,
+      size: size,
+      isLoading: isLoading,
+      isRoundedPill: true, // FABs are usually rounded
+      // FABs usually have more elevation, AppButton already adds 3D shadow which fits the premium look.
+    );
   }
 }

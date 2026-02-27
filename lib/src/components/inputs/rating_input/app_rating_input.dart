@@ -1,58 +1,98 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
-import 'package:ui_kit/src/foundation/tokens/icon_sizes/app_icon_sizes.dart';
+import '../../../../ui_kit.dart';
 
-class AppRatingInput extends StatelessWidget {
+/// A premium Rating input field.
+class AppRatingInput extends AppStatefulWrapper {
+  final double initialRating;
+  final int count;
+  final ValueChanged<double>? onRatingChanged;
+  final Color? color;
+  final double size;
+  final bool enabled;
+  final String? labelText;
+
   const AppRatingInput({
-    required this.rating,
-    required this.onChanged,
     super.key,
-    this.maxRating = 5,
-    this.iconSize = AppIconSizes.lg,
-    this.activeColor = AppColors.amber500,
-    this.inactiveColor = AppColors.grey200,
-    this.spacing = AppSpacing.xs,
-    this.allowHalfRating = false,
-    this.readOnly = false,
+    this.initialRating = 0,
+    this.count = 5,
+    this.onRatingChanged,
+    this.color,
+    this.size = 32,
+    this.enabled = true,
+    this.labelText,
   });
 
-  final double rating;
-  final ValueChanged<double>? onChanged;
-  final int maxRating;
-  final double iconSize;
-  final Color activeColor;
-  final Color inactiveColor;
-  final double spacing;
-  final bool allowHalfRating;
-  final bool readOnly;
+  @override
+  State<AppRatingInput> createState() => _AppRatingInputState();
+}
+
+class _AppRatingInputState extends AppStatefulWrapperState<AppRatingInput> {
+  late double _currentRating;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(maxRating, (i) {
-        final starValue = i + 1.0;
-        final isActive = rating >= starValue;
-        final isHalf =
-            allowHalfRating && rating >= starValue - 0.5 && rating < starValue;
+  void initState() {
+    super.initState();
+    _currentRating = widget.initialRating;
+  }
 
-        return Padding(
-          padding: EdgeInsets.only(right: i < maxRating - 1 ? spacing : 0),
-          child: GestureDetector(
-            onTap: readOnly ? null : () => onChanged?.call(starValue),
-            child: Icon(
-              isActive
-                  ? Icons.star
-                  : isHalf
-                      ? Icons.star_half
-                      : Icons.star_border,
-              size: iconSize,
-              color: (isActive || isHalf) ? activeColor : inactiveColor,
+  @override
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final ratingColor = widget.color ?? Colors.amber;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (widget.labelText != null) ...[
+          Text(
+            widget.labelText!,
+            style: typography.bodyBase.copyWith(
+              fontWeight: AppTypography.medium,
+              color: colors.textEmphasis,
             ),
           ),
-        );
-      }),
+          SizedBox(height: spacing.s1),
+        ],
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(widget.count, (index) {
+            final starIndex = index + 1;
+            final isFull = starIndex <= _currentRating;
+            final isHalf =
+                starIndex > _currentRating && starIndex - 0.5 <= _currentRating;
+
+            return GestureDetector(
+              onTap: widget.enabled
+                  ? () {
+                      setState(() {
+                        _currentRating = starIndex.toDouble();
+                      });
+                      if (widget.onRatingChanged != null) {
+                        widget.onRatingChanged!(_currentRating);
+                      }
+                    }
+                  : null,
+              child: Padding(
+                padding: EdgeInsets.only(right: spacing.s1),
+                child: Icon(
+                  isFull
+                      ? Icons.star
+                      : isHalf
+                      ? Icons.star_half
+                      : Icons.star_border,
+                  color: widget.enabled
+                      ? ratingColor
+                      : ratingColor.withValues(alpha: 0.5),
+                  size: widget.size,
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
     );
   }
 }

@@ -1,79 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
-import 'package:ui_kit/src/foundation/tokens/shadows/app_shadows.dart';
+import '../../../../ui_kit.dart';
 
-enum AppCardVariant { elevated, outlined, filled }
-
-class AppCard extends StatelessWidget {
-  const AppCard({
-    required this.child,
-    super.key,
-    this.variant = AppCardVariant.elevated,
-    this.padding,
-    this.margin,
-    this.onTap,
-    this.backgroundColor,
-    this.borderRadius,
-    this.shadows,
-    this.borderColor,
-    this.clip = Clip.antiAlias,
-  });
-
+class AppCard extends AppStatelessWrapper {
   final Widget child;
-  final AppCardVariant variant;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
-  final VoidCallback? onTap;
   final Color? backgroundColor;
   final BorderRadius? borderRadius;
-  final List<BoxShadow>? shadows;
-  final Color? borderColor;
-  final Clip clip;
+  final BoxShadow? boxShadow;
+  final bool withBorder;
+
+  const AppCard({
+    super.key,
+    required this.child,
+    this.padding,
+    this.margin,
+    this.backgroundColor,
+    this.borderRadius,
+    this.boxShadow = AppShadows.base,
+    this.withBorder = true,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final bg = backgroundColor ??
-        switch (variant) {
-          AppCardVariant.elevated => cs.surface,
-          AppCardVariant.outlined => cs.surface,
-          AppCardVariant.filled => cs.surfaceContainerHighest,
-        };
-    final br = borderRadius ?? AppRadius.mdAll;
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final radii = context.theme.extension<AppRadiusExtension>()!;
+
+    final bg = backgroundColor ?? colors.bodySecondaryBg;
+    final r = borderRadius ?? radii.base;
 
     return Container(
-      margin: margin,
+      margin: margin ?? EdgeInsets.only(bottom: spacing.s3),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: br,
-        boxShadow: shadows ??
-            switch (variant) {
-              AppCardVariant.elevated => AppShadows.sm,
-              _ => AppShadows.none,
-            },
-        border: variant == AppCardVariant.outlined
-            ? Border.all(color: borderColor ?? AppColors.borderDefault)
-            : null,
+        borderRadius: r,
+        boxShadow: boxShadow != null ? [boxShadow!] : null,
       ),
-      clipBehavior: clip,
-      child: onTap != null
-          ? Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: br,
-                onTap: onTap,
-                child: Padding(
-                  padding: padding ?? const EdgeInsets.all(AppSpacing.base),
-                  child: child,
-                ),
+      child: Container(
+        // Outer 1px Border
+        decoration: BoxDecoration(
+          borderRadius: r,
+          border: withBorder
+              ? Border.all(
+                  color: colors.borderColor.withValues(alpha: 0.8),
+                  width: 1,
+                )
+              : null,
+        ),
+        // 1px spacer for the double border effect
+        padding: withBorder ? EdgeInsets.all(1) : EdgeInsets.zero,
+        child: Container(
+          // Inner 1px Border
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              (r.resolve(Directionality.of(context)).topLeft.x - 1).clamp(
+                0,
+                double.infinity,
               ),
-            )
-          : Padding(
-              padding: padding ?? const EdgeInsets.all(AppSpacing.base),
-              child: child,
             ),
+            border: withBorder
+                ? Border.all(
+                    color: colors.borderColor.withValues(alpha: 0.5),
+                    width: 1,
+                  )
+                : null,
+          ),
+          padding: padding ?? EdgeInsets.all(spacing.s3),
+          child: child,
+        ),
+      ),
     );
   }
 }

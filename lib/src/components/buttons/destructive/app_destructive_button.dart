@@ -1,40 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import '../base/app_button_size.dart';
-import '../primary/app_primary_button.dart';
+import '../../../../ui_kit.dart';
 
-class AppDestructiveButton extends StatelessWidget {
+/// A premium Destructive Button component.
+/// It uses the 'danger' semantic color and supports solid/soft variants.
+class AppDestructiveButton extends AppStatelessWrapper {
+  final VoidCallback? onPressed;
+  final String label;
+  final Widget? icon;
+  final Widget? suffixIcon;
+  final AppButtonSize size;
+  final bool isLoading;
+  final bool isFullWidth;
+  final bool isRoundedPill;
+  final bool isSoft;
+  final BorderRadius? borderRadius;
+
   const AppDestructiveButton({
-    required this.onPressed,
     super.key,
-    this.label,
+    required this.label,
+    this.onPressed,
     this.icon,
+    this.suffixIcon,
+    this.size = AppButtonSize.md,
     this.isLoading = false,
-    this.isDisabled = false,
-    this.size = AppButtonSize.medium,
-    this.width,
+    this.isFullWidth = false,
+    this.isRoundedPill = false,
+    this.isSoft = false,
+    this.borderRadius,
   });
 
-  final String? label;
-  final IconData? icon;
-  final VoidCallback? onPressed;
-  final bool isLoading;
-  final bool isDisabled;
-  final AppButtonSize size;
-  final double? width;
-
   @override
-  Widget build(BuildContext context) {
-    return AppPrimaryButton(
+  Widget buildWidget(BuildContext context) {
+    return AppButton(
       label: label,
-      icon: icon,
       onPressed: onPressed,
-      isLoading: isLoading,
-      isDisabled: isDisabled,
+      icon: icon,
+      suffixIcon: suffixIcon,
+      color: AppButtonColor.danger,
+      variant: isSoft ? AppButtonVariant.soft : AppButtonVariant.solid,
       size: size,
-      width: width,
-      backgroundColor: AppColors.error,
-      foregroundColor: AppColors.white,
+      isLoading: isLoading,
+      isFullWidth: isFullWidth,
+      isRoundedPill: isRoundedPill,
+      borderRadius: borderRadius,
     );
   }
 }

@@ -1,10 +1,22 @@
-abstract final class AppElevation {
+/// Elevation values for creating shadows based on Material guidelines.
+class AppElevation {
+  AppElevation._();
+
+  /// 0.0 elevation
   static const double none = 0.0;
-  static const double low = 1.0;
-  static const double sm = 2.0;
-  static const double md = 4.0;
-  static const double lg = 8.0;
-  static const double xl = 12.0;
-  static const double xl2 = 16.0;
-  static const double modal = 24.0;
+
+  /// 2.0 elevation
+  static const double level1 = 2.0;
+
+  /// 4.0 elevation
+  static const double level2 = 4.0;
+
+  /// 8.0 elevation
+  static const double level3 = 8.0;
+
+  /// 16.0 elevation
+  static const double level4 = 16.0;
+
+  /// 24.0 elevation
+  static const double level5 = 24.0;
 }

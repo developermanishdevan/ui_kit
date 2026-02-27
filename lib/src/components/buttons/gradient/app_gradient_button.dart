@@ -1,72 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import 'package:ui_kit/src/foundation/tokens/gradients/app_gradients.dart';
-import '../base/app_base_button.dart';
-import '../base/app_button_size.dart';
+import '../../../../ui_kit.dart';
 
-class AppGradientButton extends AppBaseButton {
+/// A premium Gradient Button component.
+class AppGradientButton extends AppStatelessWrapper {
+  final VoidCallback? onPressed;
+  final String label;
+  final Widget? icon;
+  final Widget? suffixIcon;
+  final AppButtonSize size;
+  final Gradient? gradient;
+  final bool isLoading;
+  final bool isFullWidth;
+  final bool isRoundedPill;
+  final BorderRadius? borderRadius;
+
   const AppGradientButton({
-    required super.onPressed,
     super.key,
-    super.label,
-    super.icon,
-    super.isLoading,
-    super.isDisabled,
-    super.size = AppButtonSize.medium,
-    super.width,
-    this.gradient = AppGradients.primary,
+    required this.label,
+    this.onPressed,
+    this.icon,
+    this.suffixIcon,
+    this.size = AppButtonSize.md,
+    this.gradient,
+    this.isLoading = false,
+    this.isFullWidth = false,
+    this.isRoundedPill = false,
+    this.borderRadius,
   });
 
-  final Gradient gradient;
-
   @override
-  State<AppGradientButton> createState() => _State();
-}
-
-class _State extends AppBaseButtonState<AppGradientButton> {
-  @override
-  Widget build(BuildContext context) {
-    const br = AppRadius.mdAll;
-    return buildWrapper(
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: br,
-        child: InkWell(
-          borderRadius: br,
-          onTap: widget.isInteractive ? widget.onPressed : null,
-          child: Ink(
-            decoration: BoxDecoration(
-              gradient: widget.isInteractive
-                  ? widget.gradient
-                  : LinearGradient(
-                      colors: (widget.gradient as LinearGradient)
-                          .colors
-                          .map((c) => c.withValues(alpha: 0.48))
-                          .toList(),
-                    ),
-              borderRadius: br,
-            ),
-            child: Container(
-              height: widget.size.height,
-              width: widget.size == AppButtonSize.block
-                  ? double.infinity
-                  : widget.width,
-              padding: EdgeInsets.symmetric(
-                  horizontal: widget.size.horizontalPadding),
-              alignment: Alignment.center,
-              child: buildButtonContent(
-                foregroundColor: AppColors.white,
-                labelStyle: AppTypography.labelLarge.copyWith(
-                  fontSize: widget.size.fontSize,
-                  fontWeight: AppTypography.weightSemiBold,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+  Widget buildWidget(BuildContext context) {
+    return AppButton(
+      label: label,
+      onPressed: onPressed,
+      icon: icon,
+      suffixIcon: suffixIcon,
+      variant: AppButtonVariant.solid,
+      size: size,
+      gradient: gradient ?? AppGradients.brand,
+      isLoading: isLoading,
+      isFullWidth: isFullWidth,
+      isRoundedPill: isRoundedPill,
+      borderRadius: borderRadius,
     );
   }
 }

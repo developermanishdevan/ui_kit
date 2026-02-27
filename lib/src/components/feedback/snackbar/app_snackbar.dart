@@ -1,62 +1,146 @@
+import '../../../../ui_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
 
-enum AppSnackbarType { info, success, warning, error }
+enum AppSnackbarVariant {
+  primary,
+  secondary,
+  success,
+  danger,
+  warning,
+  info,
+  light,
+  dark,
+}
 
 class AppSnackbar {
   static void show(
     BuildContext context, {
     required String message,
-    AppSnackbarType type = AppSnackbarType.info,
-    String? action,
+    String? actionLabel,
     VoidCallback? onAction,
-    Duration duration = const Duration(seconds: 3),
+    AppSnackbarVariant variant = AppSnackbarVariant.dark,
+    Duration duration = const Duration(seconds: 4),
+    bool showCloseIcon = true,
   }) {
-    final (bg, fg, icon) = switch (type) {
-      AppSnackbarType.success => (
-          AppColors.success,
-          AppColors.white,
-          Icons.check_circle
-        ),
-      AppSnackbarType.warning => (
-          AppColors.warning,
-          AppColors.white,
-          Icons.warning_amber
-        ),
-      AppSnackbarType.error => (AppColors.error, AppColors.white, Icons.error),
-      AppSnackbarType.info => (AppColors.grey900, AppColors.white, Icons.info),
-    };
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
 
-    ScaffoldMessenger.of(context)
-      ..clearSnackBars()
-      ..showSnackBar(
-        SnackBar(
-          duration: duration,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: bg,
-          shape: const RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
-          margin: const EdgeInsets.all(AppSpacing.base),
-          content: Row(
+    Color bgColor;
+    Color textColor;
+    Color actionColor;
+
+    switch (variant) {
+      case AppSnackbarVariant.primary:
+        bgColor = colors.primary;
+        textColor = Colors.white;
+        actionColor = Colors.white.withValues(alpha: 0.9);
+        break;
+      case AppSnackbarVariant.secondary:
+        bgColor = colors.secondary;
+        textColor = Colors.white;
+        actionColor = Colors.white.withValues(alpha: 0.9);
+        break;
+      case AppSnackbarVariant.success:
+        bgColor = colors.success;
+        textColor = Colors.white;
+        actionColor = Colors.white.withValues(alpha: 0.9);
+        break;
+      case AppSnackbarVariant.danger:
+        bgColor = colors.danger;
+        textColor = Colors.white;
+        actionColor = Colors.white.withValues(alpha: 0.9);
+        break;
+      case AppSnackbarVariant.warning:
+        bgColor = colors.warning;
+        textColor = Colors.black87;
+        actionColor = Colors.black87.withValues(alpha: 0.8);
+        break;
+      case AppSnackbarVariant.info:
+        bgColor = colors.info;
+        textColor = Colors.white;
+        actionColor = Colors.white.withValues(alpha: 0.9);
+        break;
+      case AppSnackbarVariant.light:
+        bgColor = colors.light;
+        textColor = colors.dark;
+        actionColor = colors.primary;
+        break;
+      case AppSnackbarVariant.dark:
+        bgColor = colors.dark;
+        textColor = Colors.white;
+        actionColor = colors.primary;
+        break;
+    }
+
+    final isLargeScreen = MediaQuery.sizeOf(context).width > 768;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        padding: const EdgeInsets.only(left: 16, right: 8),
+        content: AppSemantics(
+          label: 'Notification: $message',
+          child: Row(
             children: [
-              Icon(icon, color: fg, size: 20),
-              const SizedBox(width: AppSpacing.sm),
               Expanded(
-                child: Text(message,
-                    style: AppTypography.bodyMedium.copyWith(color: fg)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Text(
+                    message,
+                    style: typography.bodyBase.copyWith(
+                      color: textColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
               ),
+              if (actionLabel != null && onAction != null) ...[
+                const SizedBox(width: 8),
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    onAction();
+                  },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: Text(
+                    actionLabel,
+                    style: typography.bodyBase.copyWith(
+                      color: actionColor,
+                      fontWeight: AppTypography.bold,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ],
+              if (showCloseIcon) ...[
+                const SizedBox(width: 4),
+                IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    size: 16,
+                    color: textColor.withValues(alpha: 0.6),
+                  ),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  },
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+              ],
             ],
           ),
-          action: action != null
-              ? SnackBarAction(
-                  label: action,
-                  textColor: fg,
-                  onPressed: onAction ?? () {},
-                )
-              : null,
         ),
-      );
+        backgroundColor: bgColor,
+        duration: duration,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        elevation: 4,
+        width: isLargeScreen ? 400 : null,
+        margin: isLargeScreen ? null : const EdgeInsets.all(16),
+      ),
+    );
   }
 }

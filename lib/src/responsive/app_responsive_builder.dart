@@ -1,38 +1,46 @@
 import 'package:flutter/material.dart';
-import 'app_device_type.dart';
+import '../foundation/tokens/breakpoints/app_breakpoints.dart';
 
-/// Renders different widgets based on screen size.
-/// All builders are optional; falls back to the most applicable smaller size.
-///
-/// ```dart
-/// AppResponsiveBuilder(
-///   mobile : (_) => MobileView(),
-///   tablet : (_) => TabletView(),
-///   desktop: (_) => DesktopView(),
-/// )
-/// ```
+/// Context-aware builder widget that returns different UI layouts
+/// based on the available width layout constraints and predefined breakpoint tokens.
 class AppResponsiveBuilder extends StatelessWidget {
+  /// The default layout builder (typically for mobile devices or very small areas).
+  final WidgetBuilder mobile;
+
+  /// Layout builder targeting tablet resolution.
+  final WidgetBuilder? tablet;
+
+  /// Layout builder targeting desktop resolution.
+  final WidgetBuilder? desktop;
+
+  /// Layout builder targeting extra large desktop screens.
+  final WidgetBuilder? largeDesktop;
+
   const AppResponsiveBuilder({
-    required this.mobile, super.key,
+    super.key,
+    required this.mobile,
     this.tablet,
     this.desktop,
     this.largeDesktop,
   });
 
-  final WidgetBuilder mobile;
-  final WidgetBuilder? tablet;
-  final WidgetBuilder? desktop;
-  final WidgetBuilder? largeDesktop;
-
   @override
   Widget build(BuildContext context) {
-    final type = context.deviceType;
-    return switch (type) {
-      AppDeviceType.largeDesktop =>
-        (largeDesktop ?? desktop ?? tablet ?? mobile)(context),
-      AppDeviceType.desktop => (desktop ?? tablet ?? mobile)(context),
-      AppDeviceType.tablet => (tablet ?? mobile)(context),
-      _ => mobile(context),
-    };
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double width = constraints.maxWidth;
+
+        if (width >= AppBreakpoints.xl && largeDesktop != null) {
+          return largeDesktop!(context);
+        } else if (width >= AppBreakpoints.lg && desktop != null) {
+          return desktop!(context);
+        } else if (width >= AppBreakpoints.md && tablet != null) {
+          return tablet!(context);
+        }
+
+        // Default to mobile if nothing else matches or is provided
+        return mobile(context);
+      },
+    );
   }
 }

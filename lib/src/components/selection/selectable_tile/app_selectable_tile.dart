@@ -1,83 +1,94 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/radius/app_radius.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
+import '../../../../ui_kit.dart';
 
-class AppSelectableTile extends StatelessWidget {
+/// A list tile component that can be selected.
+class AppSelectableTile extends AppStatelessWrapper {
+  final Widget title;
+  final Widget? subtitle;
+  final Widget? leading;
+  final bool selected;
+  final VoidCallback? onTap;
+  final bool enabled;
+
   const AppSelectableTile({
-    required this.title,
-    required this.selected,
-    required this.onTap,
     super.key,
+    required this.title,
     this.subtitle,
     this.leading,
-    this.trailing,
+    required this.selected,
+    this.onTap,
     this.enabled = true,
-    this.activeColor,
   });
 
-  final String title;
-  final String? subtitle;
-  final Widget? leading;
-  final Widget? trailing;
-  final bool selected;
-  final VoidCallback onTap;
-  final bool enabled;
-  final Color? activeColor;
-
   @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final color = activeColor ?? cs.primary;
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final spacing = context.theme.extension<AppSpacingExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      decoration: BoxDecoration(
-        color: selected ? color.withValues(alpha: 0.1) : Colors.transparent,
-        borderRadius: AppRadius.mdAll,
-        border: Border.all(
-          color: selected ? color : AppColors.borderDefault,
-          width: selected ? 2 : 1,
-        ),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: AppRadius.mdAll,
-          onTap: enabled ? onTap : null,
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
-              children: [
-                if (leading != null) ...[
-                  leading!,
-                  const SizedBox(width: AppSpacing.sm)
-                ],
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(title,
-                          style: AppTypography.bodyMedium.copyWith(
-                            color: selected ? color : AppColors.textPrimary,
-                            fontWeight: selected
-                                ? AppTypography.weightSemiBold
-                                : AppTypography.weightRegular,
-                          )),
-                      if (subtitle != null)
-                        Text(subtitle!,
-                            style: AppTypography.caption.copyWith(
-                              color: AppColors.textSecondary,
-                            )),
-                    ],
-                  ),
-                ),
-                if (trailing != null) trailing!,
-                if (selected) Icon(Icons.check_circle, color: color, size: 20),
-              ],
+    return Material(
+      color: selected
+          ? colors.primary.withValues(alpha: 0.05)
+          : Colors.transparent,
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: spacing.s4,
+            vertical: spacing.s3,
+          ),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: colors.borderColorTranslucent),
+              left: BorderSide(
+                color: selected ? colors.primary : Colors.transparent,
+                width: 4,
+              ),
             ),
+          ),
+          child: Row(
+            children: [
+              if (leading != null) ...[
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    iconTheme: IconThemeData(
+                      color: selected
+                          ? colors.primary
+                          : colors.bodySecondaryColor,
+                    ),
+                  ),
+                  child: leading!,
+                ),
+                SizedBox(width: spacing.s4),
+              ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DefaultTextStyle(
+                      style: typography.bodyBase.copyWith(
+                        fontWeight: selected
+                            ? AppTypography.semiBold
+                            : AppTypography.medium,
+                        color: selected ? colors.primary : colors.textEmphasis,
+                      ),
+                      child: title,
+                    ),
+                    if (subtitle != null) ...[
+                      SizedBox(height: 2),
+                      DefaultTextStyle(
+                        style: typography.bodySm.copyWith(
+                          color: colors.bodySecondaryColor,
+                        ),
+                        child: subtitle!,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              if (selected)
+                Icon(Icons.check_circle, color: colors.primary, size: 20),
+            ],
           ),
         ),
       ),

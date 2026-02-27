@@ -1,69 +1,114 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/foundation/tokens/colors/app_colors.dart';
-import 'package:ui_kit/src/foundation/tokens/typography/app_typography.dart';
-import 'package:ui_kit/src/foundation/tokens/spacing/app_spacing.dart';
+import '../../../../ui_kit.dart';
 
-class AppKeyValueRow extends StatelessWidget {
-  const AppKeyValueRow({
-    required this.label, required this.value, super.key,
-    this.labelStyle,
-    this.valueStyle,
-    this.trailing,
-    this.copyable = false,
-    this.padding,
-  });
+/// A component that displays a key-value pair in a row layout.
+/// Commonly used for details pages, settings, or information summaries.
+class AppKeyValueRow extends AppStatelessWrapper {
+  /// The key/label of the row.
+  final dynamic label;
 
-  final String label;
-  final String value;
-  final TextStyle? labelStyle;
-  final TextStyle? valueStyle;
+  /// The value associated with the key.
+  final dynamic value;
+
+  /// Optional icon or widget to show before the label.
+  final Widget? leading;
+
+  /// Optional widget to show after the value.
   final Widget? trailing;
-  final bool copyable;
+
+  /// Whether the label should be emphasized (bold).
+  final bool emphasizeLabel;
+
+  /// Custom padding for the row.
   final EdgeInsetsGeometry? padding;
 
+  /// Whether to show a divider at the bottom of the row.
+  final bool showDivider;
+
+  /// Alignment of the row contents.
+  final CrossAxisAlignment crossAxisAlignment;
+
+  /// Space between label and value.
+  final double? spacing;
+
+  const AppKeyValueRow({
+    super.key,
+    required this.label,
+    required this.value,
+    this.leading,
+    this.trailing,
+    this.emphasizeLabel = true,
+    this.padding,
+    this.showDivider = false,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.spacing,
+  });
+
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget buildWidget(BuildContext context) {
+    final colors = context.theme.extension<AppColorsExtension>()!;
+    final typography = context.theme.extension<AppTypographyExtension>()!;
+    final appSpacing = context.theme.extension<AppSpacingExtension>()!;
+
+    return AppSemantics(
+      label: 'Key Value Pair',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              label,
-              style: labelStyle ??
-                  AppTypography.bodySmall.copyWith(
-                    color: AppColors.textSecondary,
+          Padding(
+            padding: padding ?? EdgeInsets.symmetric(vertical: appSpacing.s3),
+            child: Row(
+              crossAxisAlignment: crossAxisAlignment,
+              children: [
+                if (leading != null) ...[
+                  leading!,
+                  SizedBox(width: appSpacing.s2),
+                ],
+                Expanded(
+                  flex: 2,
+                  child: _buildItem(
+                    label,
+                    typography.bodyBase.copyWith(
+                      color: colors.bodySecondaryColor,
+                      fontWeight: emphasizeLabel
+                          ? AppTypography.semiBold
+                          : AppTypography.regular,
+                    ),
                   ),
+                ),
+                SizedBox(width: spacing ?? appSpacing.s4),
+                Expanded(
+                  flex: 3,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Flexible(
+                        child: _buildItem(
+                          value,
+                          typography.bodyBase.copyWith(
+                            color: colors.textEmphasis,
+                          ),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                      if (trailing != null) ...[
+                        SizedBox(width: appSpacing.s2),
+                        trailing!,
+                      ],
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            flex: 3,
-            child: Text(
-              value,
-              style: valueStyle ??
-                  AppTypography.bodyMedium.copyWith(
-                    color: AppColors.textPrimary,
-                  ),
-            ),
-          ),
-          if (copyable)
-            GestureDetector(
-              onTap: () {
-                // Copy to clipboard
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Copied!'), duration: Duration(seconds: 1)),
-                );
-              },
-              child: const Icon(Icons.copy,
-                  size: 16, color: AppColors.textTertiary),
-            ),
-          if (trailing != null) trailing!,
+          if (showDivider) AppDivider(height: 1),
         ],
       ),
     );
+  }
+
+  Widget _buildItem(dynamic item, TextStyle style, {TextAlign? textAlign}) {
+    if (item is Widget) return item;
+    return Text(item.toString(), style: style, textAlign: textAlign);
   }
 }
