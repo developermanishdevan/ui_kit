@@ -26,9 +26,7 @@ import 'src/snackbar_section.dart';
 import 'src/shimmer_section.dart';
 import 'src/skeleton_section.dart';
 import 'src/app_loader_section.dart';
-import 'src/retry_wrapper_section.dart';
-import 'src/banner_section.dart';
-import 'src/empty_state_section.dart';
+import 'src/info_state_section.dart';
 
 // Components — Data Display
 import 'src/cards_section.dart';
@@ -244,19 +242,9 @@ final List<_NavGroup> _navGroups = [
         section: const AppLoaderSection(),
       ),
       _NavItem(
-        label: 'Retry Wrapper',
+        label: 'Info state',
         icon: Icons.replay_outlined,
-        section: const RetryWrapperSection(),
-      ),
-      _NavItem(
-        label: 'Banner',
-        icon: Icons.announcement_outlined,
-        section: const BannerSection(),
-      ),
-      _NavItem(
-        label: 'Empty State',
-        icon: Icons.inbox_outlined,
-        section: const EmptyStateSection(),
+        section: const InfoStateSection(),
       ),
     ],
   ),
