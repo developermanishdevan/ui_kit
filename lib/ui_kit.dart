@@ -161,6 +161,4 @@ export 'src/components/selection/tag_selector/app_tag_selector.dart';
 export 'src/components/inputs/date_picker/app_date_picker.dart';
 export 'src/components/inputs/time_picker/app_time_picker.dart';
 // Utils
-export 'src/utils/extensions/color_extensions.dart';
 export 'src/utils/extensions/context_extensions.dart';
-export 'src/utils/extensions/string_extensions.dart';
